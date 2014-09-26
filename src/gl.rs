@@ -1,4 +1,4 @@
-extern crate gl;
+/*extern crate gl;
 extern crate glfw;
 
 use glfw::Context;
@@ -85,3 +85,4 @@ fn on_event(window:&mut glfw::Window,event:glfw::WindowEvent){
 fn on_render(){
 	gl::Clear(gl::COLOR_BUFFER_BIT);
 }
+*/

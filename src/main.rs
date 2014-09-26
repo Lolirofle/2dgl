@@ -1,17 +1,30 @@
 #![feature(tuple_indexing)]
 
-use game::{TdpgGame,Player,Point2};
-mod game;
+use all::player::Player as Player;
+use all::game::Game as Game;
+use all::gameobj::Updatable as Updatable;
+use all::physics::WithPhysics as WithPhysics;
+use all::physics::Existence as Existence;
+mod all;
+
+struct TdpgGame{
+	player: Player
+}
+impl Game for TdpgGame{
+	fn init(&mut self){}
+	fn close(&mut self){}
+	fn update(&mut self,delta_time: uint){
+		self.player.update(delta_time);
+	}
+	fn render(&self){}	
+}
 
 fn main(){
 	let mut game = TdpgGame{
-		player: Player{
-			position: Point2(0.0,50.0),
-			velocity: Point2(0.0,0.0)
-		}
+		player: Player::new()
 	};
-	for i in range(0u,5){
-		println!("{}: At {} with mass {}",i,game.player.position,game.player.get_mass());
+	for i in range(0u,10){
+		println!("{}: At {} with mass {}",i,game.player.get_position(),game.player.get_mass());
 		game.update(1);
 	}
 }
