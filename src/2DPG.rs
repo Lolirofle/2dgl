@@ -1,11 +1,15 @@
+#![feature(globs)]
 #![feature(tuple_indexing)]
 
-use all::player::Player as Player;
-use all::game::Game as Game;
-use all::gameobj::Updatable as Updatable;
-use all::physics::WithPhysics as WithPhysics;
-use all::physics::Existence as Existence;
-mod all;
+extern crate gl;
+extern crate glfw;
+
+use lolirofle::player::Player as Player;
+use lolirofle::game::Game as Game;
+use lolirofle::gameobj::Updatable as Updatable;
+use lolirofle::physics::WithPhysics as WithPhysics;
+use lolirofle::physics::Existence as Existence;
+mod lolirofle;
 
 struct TdpgGame{
 	player: Player

@@ -1,3 +1,5 @@
+pub mod gl;
+
 pub mod game;
 pub mod gameobj;
 pub mod physics;
