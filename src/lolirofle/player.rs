@@ -2,8 +2,8 @@ use super::vector::Vector2 as Vector2;
 use super::physics::Existence as Existence;
 use super::physics::Mass as Mass;
 use super::physics::WithPhysics as WithPhysics;
-use super::gameobj::Updatable as Updatable;
-use super::gameobj::Renderable as Renderable;
+use super::gameloop::Updatable as Updatable;
+use super::gameloop::Renderable as Renderable;
 
 pub struct Player{
 	position: Vector2<f32>,
@@ -28,7 +28,7 @@ impl Updatable for Player{
 
 		self.velocity = self.velocity + acceleration * (delta_time as f32);
 		
-		self.position = self.position + self.velocity * (delta_time as f32);
+		self.position = (self.position + self.velocity * (delta_time as f32)) / 2.0;
 	}
 }
 impl Renderable for Player{

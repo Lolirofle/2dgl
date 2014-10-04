@@ -26,3 +26,9 @@ impl<T: core::ops::Mul<T,T>> Mul<T,Vector2<T>> for Vector2<T>{
 		return Vector2(self.0 * *other,self.1 * *other);
 	}
 }
+
+impl<T: core::ops::Div<T,T>> Div<T,Vector2<T>> for Vector2<T>{
+	fn div(&self, other: &T) -> Vector2<T>{
+		return Vector2(self.0 / *other,self.1 / *other);
+	}
+}

@@ -1,7 +1,7 @@
 extern crate std;
 
 use super::vector::Vector2 as Vector2;
-use super::gameobj::Updatable as Updatable;
+use super::gameloop::Updatable as Updatable;
 
 /*
  * Mass in kg
