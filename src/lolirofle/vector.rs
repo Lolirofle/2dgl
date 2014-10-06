@@ -1,7 +1,8 @@
 extern crate std;
 extern crate core;
 
-pub struct Vector2<T>(T,T);
+#[deriving(Clone,Zero)]
+pub struct Vector2<T>(pub T,pub T);
 
 impl<T> Vector2<T>{
 	pub fn new(x: T,y: T) -> Vector2<T>{

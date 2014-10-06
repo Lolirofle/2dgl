@@ -2,6 +2,7 @@ extern crate gl;
 use gl::types::*;
 use std::mem;
 use std::ptr;
+use lolirofle::vector::Vector2;
 use lolirofle::gl::*;
 use lolirofle::gl::vertex_object::VertexObject as VertexObject;
 
@@ -103,9 +104,9 @@ impl Renderer{
 		}
 	}
 
-	pub fn render_rectangle(&self,x1: GLfloat,y1: GLfloat,x2: GLfloat,y2: GLfloat){
-		gl::Uniform2f(self.position_loc,x1,y1);
-		gl::Uniform2f(self.size_loc    ,x2-x1,y2-y1);
+	pub fn render_rectangle(&self,Vector2(x,y): Vector2<GLfloat>,Vector2(w,h): Vector2<GLfloat>){
+		gl::Uniform2f(self.position_loc,x,y);
+		gl::Uniform2f(self.size_loc    ,w,h);
 
 		gl::DrawArrays(gl::TRIANGLES,0,self.unit_square.size as GLint);
 	}

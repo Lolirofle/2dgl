@@ -4,7 +4,9 @@ use super::physics::Mass as Mass;
 use super::physics::WithPhysics as WithPhysics;
 use super::gameloop::Updatable as Updatable;
 use super::gameloop::Renderable as Renderable;
+use lolirofle::gl::renderer::Renderer as Renderer;
 
+#[deriving(Clone)]
 pub struct Player{
 	position: Vector2<f32>,
 	velocity: Vector2<f32>
@@ -23,16 +25,20 @@ impl Existence for Player{
 	}
 }
 impl Updatable for Player{
-	fn update(&mut self,delta_time: uint){
-		let acceleration = Vector2::new(0.0,self.get_mass()*9.82);
+	fn update(&mut self,delta_time: f64){
+		let acceleration = Vector2::new(0.0,9.82*16.0);
 
 		self.velocity = self.velocity + acceleration * (delta_time as f32);
-		
-		self.position = (self.position + self.velocity * (delta_time as f32)) / 2.0;
+		self.position = self.position + self.velocity * (delta_time as f32) / 2.0;
 	}
 }
 impl Renderable for Player{
-	fn render(&self){}
+	fn render(&self,renderer: &Renderer){
+		renderer.render_rectangle(
+			self.get_position(),
+			Vector2(16.0 as f32,16.0)
+		);
+	}
 }
 impl WithPhysics for Player{
 	fn get_mass(&self) -> Mass{

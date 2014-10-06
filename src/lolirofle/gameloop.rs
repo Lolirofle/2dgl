@@ -1,7 +1,9 @@
+use lolirofle::gl::renderer::Renderer as Renderer;
+
 pub trait Updatable{
-	fn update(&mut self,delta_time: uint);
+	fn update(&mut self,delta_time: f64);
 }
 
 pub trait Renderable{
-	fn render(&self);
+	fn render(&self,renderer: &Renderer);
 }
