@@ -103,17 +103,6 @@ impl Renderer{
 		}
 	}
 
-	pub fn close(&self){
-		//Free
-		gl::DeleteProgram(self.shader_program);
-		gl::DeleteShader(self.fragment_shader);
-		gl::DeleteShader(self.vertex_shader);
-		unsafe{
-			gl::DeleteBuffers(1,&self.unit_square.buffer);
-			gl::DeleteVertexArrays(1,&self.unit_square.array);
-		}
-	}
-
 	pub fn render_rectangle(&self,x1: GLfloat,y1: GLfloat,x2: GLfloat,y2: GLfloat){
 		gl::Uniform2f(self.position_loc,x1,y1);
 		gl::Uniform2f(self.size_loc    ,x2-x1,y2-y1);
@@ -124,5 +113,17 @@ impl Renderer{
 	pub fn init_projection(&self,x:GLint,y:GLint,width:GLuint,height:GLuint){
 		gl::Viewport(x,y,width as GLint,height as GLint);
 		gl::Uniform2f(self.framebuffer_size_loc,width as GLfloat,height as GLfloat);
+	}
+}
+impl Drop for Renderer{
+	fn drop(&mut self){
+		//Free
+		gl::DeleteProgram(self.shader_program);
+		gl::DeleteShader(self.fragment_shader);
+		gl::DeleteShader(self.vertex_shader);
+		unsafe{
+			gl::DeleteBuffers(1,&self.unit_square.buffer);
+			gl::DeleteVertexArrays(1,&self.unit_square.array);
+		}
 	}
 }
