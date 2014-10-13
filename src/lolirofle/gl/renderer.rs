@@ -7,11 +7,11 @@ use lolirofle::gl::*;
 use lolirofle::gl::vertex_object::VertexObject as VertexObject;
 
 //Import shader sources
-static vertex_shader_src:   &'static str = include_str!("vertex_shader.glsl");
-static fragment_shader_src: &'static str = include_str!("fragment_shader.glsl");
+const VERTEX_SHADER_SRC:   &'static str = include_str!("vertex_shader.glsl");
+const FRAGMENT_SHADER_SRC: &'static str = include_str!("fragment_shader.glsl");
 
 //Vertex coordinates for the triangles making up a square
-static vertices_square: [GLfloat, ..12] = [
+const VERTICES_SQUARE: [GLfloat, ..12] = [
 	0.0,0.0,
 	0.0,1.0,
 	1.0,1.0,
@@ -22,7 +22,7 @@ static vertices_square: [GLfloat, ..12] = [
 ];
 
 fn create_unit_square() -> VertexObject{
-	let size = (vertices_square.len() * mem::size_of::<GLfloat>()) as GLsizeiptr;
+	let size = (VERTICES_SQUARE.len() * mem::size_of::<GLfloat>()) as GLsizeiptr;
 
 	//Initialize Vertex Buffer Object, copying the vertex data to it
 	let mut vbo = 0;unsafe{
@@ -31,7 +31,7 @@ fn create_unit_square() -> VertexObject{
 		gl::BufferData(
 			gl::ARRAY_BUFFER,
 			size,
-			mem::transmute(&vertices_square[0]),
+			mem::transmute(&VERTICES_SQUARE[0]),
 			gl::STATIC_DRAW
 		);
 	}
@@ -61,8 +61,8 @@ pub struct Renderer{
 }
 impl Renderer{
 	pub fn initiated() -> Renderer{
-		let vertex_shader   = shaders::compile_shader(vertex_shader_src  ,gl::VERTEX_SHADER);
-		let fragment_shader = shaders::compile_shader(fragment_shader_src,gl::FRAGMENT_SHADER);
+		let vertex_shader   = shaders::compile_shader(VERTEX_SHADER_SRC  ,gl::VERTEX_SHADER);
+		let fragment_shader = shaders::compile_shader(FRAGMENT_SHADER_SRC,gl::FRAGMENT_SHADER);
 		let shader_program  = shaders::link_program(vertex_shader,fragment_shader);
 
 		//Use shader program

@@ -28,7 +28,7 @@ impl Updatable for Player{
 	fn update(&mut self,delta_time: f64){
 		let acceleration = Vector2::new(0.0,9.82*16.0);
 
-		self.velocity = self.velocity + acceleration * (delta_time as f32);
+		self.velocity = self.velocity + acceleration  * (delta_time as f32);
 		self.position = self.position + self.velocity * (delta_time as f32) / 2.0;
 	}
 }
