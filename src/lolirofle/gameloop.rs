@@ -1,4 +1,4 @@
-use lolirofle::gl::renderer::Renderer as Renderer;
+use lolirofle::gl::renderer::Renderer;
 
 pub trait Updatable{
 	fn update(&mut self,delta_time: f64);

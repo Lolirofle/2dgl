@@ -1,4 +1,4 @@
-use lolirofle::vector::Vector2 as Vector2;
+use lolirofle::vector::Vector2;
 
 enum Events{
     Move(Vector2<f32>),

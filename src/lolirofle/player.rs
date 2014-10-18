@@ -1,10 +1,10 @@
-use super::vector::Vector2 as Vector2;
-use super::physics::Existence as Existence;
-use super::physics::Mass as Mass;
-use super::physics::WithPhysics as WithPhysics;
-use super::gameloop::Updatable as Updatable;
-use super::gameloop::Renderable as Renderable;
-use lolirofle::gl::renderer::Renderer as Renderer;
+use lolirofle::vector::Vector2;
+use lolirofle::physics::Existence;
+use lolirofle::physics::Mass;
+use lolirofle::physics::WithPhysics;
+use lolirofle::gameloop::Updatable;
+use lolirofle::gameloop::Renderable;
+use lolirofle::gl::renderer::Renderer;
 
 #[deriving(Clone)]
 pub struct Player{

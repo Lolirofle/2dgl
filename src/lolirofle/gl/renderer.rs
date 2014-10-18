@@ -4,7 +4,7 @@ use std::mem;
 use std::ptr;
 use lolirofle::vector::Vector2;
 use lolirofle::gl::*;
-use lolirofle::gl::vertex_object::VertexObject as VertexObject;
+use lolirofle::gl::vertex_object::VertexObject;
 
 //Import shader sources
 const VERTEX_SHADER_SRC:   &'static str = include_str!("vertex_shader.glsl");

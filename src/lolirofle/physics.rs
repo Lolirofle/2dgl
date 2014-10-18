@@ -1,7 +1,7 @@
 extern crate std;
 
-use super::vector::Vector2 as Vector2;
-use super::gameloop::Updatable as Updatable;
+use lolirofle::vector::Vector2;
+use lolirofle::gameloop::Updatable;
 
 /*
  * Mass in kg

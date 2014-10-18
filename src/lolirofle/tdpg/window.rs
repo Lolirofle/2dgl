@@ -6,9 +6,9 @@ use std::task::TaskBuilder;
 use std::io::timer;
 use std::time::Duration;
 use glfw::Context;
-use lolirofle::gl::renderer::Renderer as Renderer;
-use lolirofle::gameloop::Updatable as Updatable;
-use lolirofle::gameloop::Renderable as Renderable;
+use lolirofle::gl::renderer::Renderer;
+use lolirofle::gameloop::Updatable;
+use lolirofle::gameloop::Renderable;
 
 enum RenderingMessage<T : Send>{
 	RenderStop,
