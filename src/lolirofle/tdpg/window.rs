@@ -2,29 +2,27 @@ extern crate core;
 extern crate gl;
 extern crate glfw;
 
+use glfw::Context;
+use lolirofle::gl::renderer::Renderer;
+use lolirofle::gameloop::*;
+use lolirofle::game::Game;
 use std::task::TaskBuilder;
 use std::io::timer;
 use std::time::Duration;
-use glfw::Context;
-use lolirofle::gl::renderer::Renderer;
-use lolirofle::gameloop::Updatable;
-use lolirofle::gameloop::Renderable;
 
 enum RenderingMessage<T : Send>{
 	RenderStop,
 	RenderData(T),
 }
 
-fn glfw_loop<G: Updatable + Renderable + Send + Clone>(
+fn glfw_loop<G: Game + Send + Clone>(
 	glfw:        glfw::Glfw,
 	window:      &mut glfw::Window,
 	events:      Receiver<(f64,glfw::WindowEvent)>,
 	renderer:    Renderer,
-	init_func:   fn() -> G,
-	event_func:  fn(&mut glfw::Window,glfw::WindowEvent)
 ){
 	//Init
-	let mut game = init_func();
+	let mut game: G = Game::init();
 
 	//Render
 	let render_context = window.render_context();
@@ -50,7 +48,7 @@ fn glfw_loop<G: Updatable + Renderable + Send + Clone>(
 		}
 	});
 
-	//Events and Update
+	//Event and Update
 	let mut previous_time = glfw.get_time();
 	let mut next_time = glfw.get_time();
 	loop{
@@ -59,7 +57,7 @@ fn glfw_loop<G: Updatable + Renderable + Send + Clone>(
 		//Fetch events, processing each
 		glfw.poll_events();
 		for (_,event) in glfw::flush_messages(&events){
-			event_func(window,event);
+			game.event(window,event);
 		}
 
 		//Check if the window should close
@@ -84,10 +82,7 @@ fn glfw_loop<G: Updatable + Renderable + Send + Clone>(
 	let _ = render_task.unwrap();
 }
 
-pub fn run<G: Updatable + Renderable + Send + Clone>(
-	init_func: fn() -> G,
-	event_func: fn(window:&mut glfw::Window,event:glfw::WindowEvent)
-){
+pub fn run<'e,G: Game + Send + Clone>(){
 	let glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
 
 	//Window
@@ -116,6 +111,6 @@ pub fn run<G: Updatable + Renderable + Send + Clone>(
 		renderer.init_projection(0,0,640,480);
 
 		//Main loop
-		glfw_loop(glfw,&mut window,events,renderer,init_func,event_func);
+		glfw_loop::<G>(glfw,&mut window,events,renderer);
 	}
 }

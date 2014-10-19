@@ -1,7 +1,6 @@
 extern crate std;
 
 use lolirofle::vector::Vector2;
-use lolirofle::gameloop::Updatable;
 
 /*
  * Mass in kg
@@ -25,7 +24,8 @@ pub trait Existence{
 	fn get_position(&self) -> Vector2<f32>;
 }
 
-pub trait WithPhysics: Existence + Updatable{
+pub trait WithPhysics: Existence{
 	fn get_mass(&self) -> Mass;
 	fn get_velocity(&self) -> Vector2<f32>;
+	fn add_force(&mut self,f: Vector2<f32>);
 }

@@ -1,12 +1,29 @@
 extern crate std;
 extern crate core;
 
+use std::num::One;
+
 #[deriving(Clone,Zero)]
 pub struct Vector2<T>(pub T,pub T);
 
 impl<T> Vector2<T>{
 	pub fn new(x: T,y: T) -> Vector2<T>{
 		return Vector2(x,y);
+	}
+}
+
+impl<T: Float + Sub<T,T> + One + core::fmt::Show> Vector2<T>{
+	pub fn limit(&mut self,magnitude: T){
+		let current_magnitude = self.0*self.0 + self.1*self.1;
+		if current_magnitude > magnitude*magnitude{
+			let d = magnitude/current_magnitude.sqrt();
+			self.0 = self.0*d;
+			self.1 = self.1*d;
+		}
+	}
+
+	pub fn magnitude(&self) -> T{
+		return (self.0*self.0 + self.1*self.1).sqrt();
 	}
 }
 
@@ -44,4 +61,22 @@ impl<T: Div<T,T>> Div<T,Vector2<T>> for Vector2<T>{
 	fn div(&self, other: &T) -> Vector2<T>{
 		return Vector2(self.0 / *other,self.1 / *other);
 	}
+}
+
+#[test]
+fn vector_limit1(){
+	let mut v = Vector2::new(3.0 as f32,4.0);
+	v.limit(2.5);
+	let m = v.magnitude();
+	println!("{}.magnitude = {} = 2.5",v,m);
+	assert!(m==2.5 || (2.5-m).abs() < 1.0e-06);
+}
+
+#[test]
+fn vector_limit2(){
+	let mut v = Vector2::new(100.0 as f32,100.0);
+	v.limit(10.0);
+	let m = v.magnitude();
+	println!("{}.magnitude = {} = 10.0",v,m);
+	assert!(m==10.0 || (10.0-m).abs() < 1.0e-06);
 }
