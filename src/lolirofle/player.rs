@@ -1,4 +1,4 @@
-use lolirofle::gameloop::*;
+use lolirofle::game::gameloop::*;
 use lolirofle::gl::renderer::Renderer;
 use lolirofle::physics::Existence;
 use lolirofle::physics::Mass;
@@ -31,7 +31,7 @@ impl Updatable<TdpgGame> for Player{
 		let acceleration = self.force/self.get_mass();
 
 		self.velocity = self.velocity + acceleration  * (delta_time as f32);
-		self.velocity.limit(game.velocity_max*game.pixels_per_meter);
+		self.velocity.limit_magnitude(game.velocity_max*game.pixels_per_meter);
 		self.position = self.position + self.velocity * (delta_time as f32) / 2.0;
 		self.force = Vector2::new(0.0,0.0);
 	}

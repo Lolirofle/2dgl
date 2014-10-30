@@ -2,53 +2,53 @@
 name = "2DPG"
 version = "0.0.1"
 dependencies = [
- "gl 0.0.1 (git+https://github.com/bjz/gl-rs#feed7be39546edb7e8781e3fbe5892caa41a5383)",
- "glfw 0.0.1 (git+https://github.com/bjz/glfw-rs.git#84b7ec32b4acead41f0bfde224604a2cf5a21d8a)",
+ "gl 0.0.1 (git+https://github.com/bjz/gl-rs)",
+ "glfw 0.0.1 (git+https://github.com/bjz/glfw-rs.git)",
 ]
 
 [[package]]
 name = "gl"
 version = "0.0.1"
-source = "git+https://github.com/bjz/gl-rs#feed7be39546edb7e8781e3fbe5892caa41a5383"
+source = "git+https://github.com/bjz/gl-rs#cd03840a3cdbb947feb3a8aa8b74ac7ff8428d60"
 dependencies = [
- "gl_generator 0.0.1 (git+https://github.com/bjz/gl-rs#feed7be39546edb7e8781e3fbe5892caa41a5383)",
+ "gl_generator 0.0.1 (git+https://github.com/bjz/gl-rs)",
 ]
 
 [[package]]
 name = "gl_generator"
 version = "0.0.1"
-source = "git+https://github.com/bjz/gl-rs#feed7be39546edb7e8781e3fbe5892caa41a5383"
+source = "git+https://github.com/bjz/gl-rs#cd03840a3cdbb947feb3a8aa8b74ac7ff8428d60"
 dependencies = [
- "khronos_api 0.0.1 (git+https://github.com/bjz/gl-rs#feed7be39546edb7e8781e3fbe5892caa41a5383)",
- "rust-xml 0.1.0 (git+https://github.com/netvl/rust-xml#f86f02b3b1c355080136b0acc322b3318c195cda)",
+ "khronos_api 0.0.1 (git+https://github.com/bjz/gl-rs)",
+ "rust-xml 0.1.0 (git+https://github.com/netvl/rust-xml)",
 ]
 
 [[package]]
 name = "glfw"
 version = "0.0.1"
-source = "git+https://github.com/bjz/glfw-rs.git#84b7ec32b4acead41f0bfde224604a2cf5a21d8a"
+source = "git+https://github.com/bjz/glfw-rs.git#d394c244575ed879e933dffcdab06d4276a5cdae"
 dependencies = [
- "glfw-sys 3.0.4 (git+https://github.com/servo/glfw?ref=cargo-3.0.4#65a2b4721276589d9de24f6a9999a2db37286cae)",
- "semver 0.1.0 (git+https://github.com/rust-lang/semver#9bb8265ea6cf01eddfa7dc5ec9334883443e9fc7)",
+ "glfw-sys 3.0.4 (git+https://github.com/servo/glfw?ref=cargo-3.0.4)",
+ "semver 0.1.0 (git+https://github.com/rust-lang/semver)",
 ]
 
 [[package]]
 name = "glfw-sys"
 version = "3.0.4"
-source = "git+https://github.com/servo/glfw?ref=cargo-3.0.4#65a2b4721276589d9de24f6a9999a2db37286cae"
+source = "git+https://github.com/servo/glfw?ref=cargo-3.0.4#0e13d32555fb72b38ba1dfcff0c65a486510302e"
 
 [[package]]
 name = "khronos_api"
 version = "0.0.1"
-source = "git+https://github.com/bjz/gl-rs#feed7be39546edb7e8781e3fbe5892caa41a5383"
+source = "git+https://github.com/bjz/gl-rs#cd03840a3cdbb947feb3a8aa8b74ac7ff8428d60"
 
 [[package]]
 name = "rust-xml"
 version = "0.1.0"
-source = "git+https://github.com/netvl/rust-xml#f86f02b3b1c355080136b0acc322b3318c195cda"
+source = "git+https://github.com/netvl/rust-xml#cdcadd4761a1e3aa5f937321e4d30507604c6fc2"
 
 [[package]]
 name = "semver"
 version = "0.1.0"
-source = "git+https://github.com/rust-lang/semver#9bb8265ea6cf01eddfa7dc5ec9334883443e9fc7"
+source = "git+https://github.com/rust-lang/semver#c7227f131c0855f9b0fdc169f767aff589a139a9"
 

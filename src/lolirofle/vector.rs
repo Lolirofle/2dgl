@@ -12,8 +12,8 @@ impl<T> Vector2<T>{
 	}
 }
 
-impl<T: Float + Sub<T,T> + One + core::fmt::Show> Vector2<T>{
-	pub fn limit(&mut self,magnitude: T){
+impl<T: FloatMath + Sub<T,T> + One + core::fmt::Show> Vector2<T>{
+	pub fn limit_magnitude(&mut self,magnitude: T){
 		let current_magnitude = self.0*self.0 + self.1*self.1;
 		if current_magnitude > magnitude*magnitude{
 			let d = magnitude/current_magnitude.sqrt();
@@ -23,7 +23,7 @@ impl<T: Float + Sub<T,T> + One + core::fmt::Show> Vector2<T>{
 	}
 
 	pub fn magnitude(&self) -> T{
-		return (self.0*self.0 + self.1*self.1).sqrt();
+		return self.0.hypot(self.1);
 	}
 }
 
@@ -66,7 +66,7 @@ impl<T: Div<T,T>> Div<T,Vector2<T>> for Vector2<T>{
 #[test]
 fn vector_limit1(){
 	let mut v = Vector2::new(3.0 as f32,4.0);
-	v.limit(2.5);
+	v.limit_magnitude(2.5);
 	let m = v.magnitude();
 	println!("{}.magnitude = {} = 2.5",v,m);
 	assert!(m==2.5 || (2.5-m).abs() < 1.0e-06);
@@ -75,7 +75,7 @@ fn vector_limit1(){
 #[test]
 fn vector_limit2(){
 	let mut v = Vector2::new(100.0 as f32,100.0);
-	v.limit(10.0);
+	v.limit_magnitude(10.0);
 	let m = v.magnitude();
 	println!("{}.magnitude = {} = 10.0",v,m);
 	assert!(m==10.0 || (10.0-m).abs() < 1.0e-06);

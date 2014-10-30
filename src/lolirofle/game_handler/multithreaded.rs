@@ -4,8 +4,9 @@ extern crate glfw;
 
 use glfw::Context;
 use lolirofle::gl::renderer::Renderer;
-use lolirofle::gameloop::*;
+use lolirofle::game::gameloop::*;
 use lolirofle::game::Game;
+use lolirofle::game_handler::GameHandler as GameHandlerTrait;
 use std::task::TaskBuilder;
 use std::io::timer;
 use std::time::Duration;
@@ -28,8 +29,8 @@ fn glfw_loop<G: Game + Send + Clone>(
 	let render_context = window.render_context();
 	let mut render_game = game.clone();
 
-	let (render_send,render_receive): (Sender<RenderingMessage<G>>,Receiver<RenderingMessage<G>>) = channel();
-	let render_task = TaskBuilder::new().named("Render Loop Task").try_future(proc(){
+	let (render_send,render_receive) = channel::<RenderingMessage<G>>();
+	let render_task = TaskBuilder::new().try_future(proc(){
 		render_context.make_current();
 
 		loop{
@@ -82,35 +83,38 @@ fn glfw_loop<G: Game + Send + Clone>(
 	let _ = render_task.unwrap();
 }
 
-pub fn run<'e,G: Game + Send + Clone>(){
-	let glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
+pub struct GameHandler<G> where G: Game + Send + Clone;
+impl<G: Game + Send + Clone> GameHandlerTrait<G> for GameHandler<G>{
+	fn run(&self){
+		let glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
 
-	//Window
-	glfw.window_hint(glfw::ContextVersion(3,2));
-	glfw.window_hint(glfw::OpenglForwardCompat(true));
-	glfw.window_hint(glfw::OpenglProfile(glfw::OpenGlCoreProfile));
+		//Window
+		glfw.window_hint(glfw::ContextVersion(3,2));
+		glfw.window_hint(glfw::OpenglForwardCompat(true));
+		glfw.window_hint(glfw::OpenglProfile(glfw::OpenGlCoreProfile));
 
-	let (mut window,events) = glfw.create_window(640,480,"GLTest",glfw::Windowed)
-		.expect("Failed to create GLFW window.");
+		let (mut window,events) = glfw.create_window(640,480,"GLTest",glfw::Windowed)
+			.expect("Failed to create GLFW window.");
 
-	//Initialize window
-	window.set_all_polling(true);
-	window.make_current();
+		//Initialize window
+		window.set_all_polling(true);
+		window.make_current();
 
-	//Initialize GL
-	gl::load_with(|s| window.get_proc_address(s));
-	gl::ClearColor(0.0,0.0,0.0,1.0);
-	gl::Enable(gl::TEXTURE_2D);
+		//Initialize GL
+		gl::load_with(|s| window.get_proc_address(s));
+		gl::ClearColor(0.0,0.0,0.0,1.0);
+		gl::Enable(gl::TEXTURE_2D);
 
-	gl::Enable(gl::BLEND);
-	gl::BlendFunc(gl::SRC_ALPHA,gl::ONE_MINUS_SRC_ALPHA);
-	gl::Disable(gl::DEPTH_TEST);
+		gl::Enable(gl::BLEND);
+		gl::BlendFunc(gl::SRC_ALPHA,gl::ONE_MINUS_SRC_ALPHA);
+		gl::Disable(gl::DEPTH_TEST);
 
-	{
-		let renderer = Renderer::initiated();
-		renderer.init_projection(0,0,640,480);
+		{
+			let renderer = Renderer::initiated();
+			renderer.init_projection(0,0,640,480);
 
-		//Main loop
-		glfw_loop::<G>(glfw,&mut window,events,renderer);
+			//Main loop
+			glfw_loop::<G>(glfw,&mut window,events,renderer);
+		}
 	}
 }

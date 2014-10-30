@@ -1,6 +1,8 @@
 use lolirofle::gl::renderer::Renderer;
 use glfw;
 
+pub mod gameloop;
+
 pub trait Game{
 	fn init() -> Self;
 	fn update(&mut self,delta_time: f64);

@@ -1,5 +1,5 @@
 use lolirofle::player::Player;
-use lolirofle::gameloop::*;
+use lolirofle::game::gameloop::*;
 use lolirofle::gl::renderer::Renderer;
 use lolirofle::physics::WithPhysics;
 use lolirofle::game::Game;
@@ -7,8 +7,6 @@ use lolirofle::vector::Vector2;
 use gl;
 use glfw;
 use std::mem;
-
-pub mod window;
 
 #[deriving(Clone)]
 pub struct TdpgGame{
