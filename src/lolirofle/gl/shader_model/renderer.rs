@@ -2,7 +2,6 @@ extern crate gl;
 
 use gl::types::*;
 use lolirofle::data::vector::Vector2;
-use lolirofle::gl::*;
 use lolirofle::gl::shader_model::shaders;
 use lolirofle::gl::shader_model::vertex_object::VertexObject;
 use lolirofle::gl::renderer::Renderer as RendererTrait;

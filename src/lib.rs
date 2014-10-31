@@ -6,4 +6,4 @@ extern crate collections;
 extern crate gl;
 extern crate glfw;
 
-mod lolirofle;
+pub mod lolirofle;
