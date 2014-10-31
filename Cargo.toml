@@ -1,7 +1,7 @@
 [package]
 
-name = "2DPG"
-version = "0.0.1"
+name = "2dgl"
+version = "0.0.2"
 authors = ["Lolirofle <lolipopple@hotmail.com>"]
 
 [dependencies.glfw]
@@ -10,5 +10,5 @@ git = "https://github.com/bjz/glfw-rs.git"
 [dependencies.gl]
 git = "https://github.com/bjz/gl-rs"
 
-[[bin]]
-name = "2DPG"
+[lib]
+name = "2dgl"

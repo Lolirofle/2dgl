@@ -1,5 +1,5 @@
 [root]
-name = "2DPG"
+name = "2dgl"
 version = "0.0.1"
 dependencies = [
  "gl 0.0.1 (git+https://github.com/bjz/gl-rs)",
@@ -9,7 +9,7 @@ dependencies = [
 [[package]]
 name = "gl"
 version = "0.0.1"
-source = "git+https://github.com/bjz/gl-rs#cd03840a3cdbb947feb3a8aa8b74ac7ff8428d60"
+source = "git+https://github.com/bjz/gl-rs#c93ac7204b36adc5f52f08fb675d31d2c41bb14a"
 dependencies = [
  "gl_generator 0.0.1 (git+https://github.com/bjz/gl-rs)",
 ]
@@ -17,7 +17,7 @@ dependencies = [
 [[package]]
 name = "gl_generator"
 version = "0.0.1"
-source = "git+https://github.com/bjz/gl-rs#cd03840a3cdbb947feb3a8aa8b74ac7ff8428d60"
+source = "git+https://github.com/bjz/gl-rs#c93ac7204b36adc5f52f08fb675d31d2c41bb14a"
 dependencies = [
  "khronos_api 0.0.1 (git+https://github.com/bjz/gl-rs)",
  "rust-xml 0.1.0 (git+https://github.com/netvl/rust-xml)",
@@ -26,7 +26,7 @@ dependencies = [
 [[package]]
 name = "glfw"
 version = "0.0.1"
-source = "git+https://github.com/bjz/glfw-rs.git#d394c244575ed879e933dffcdab06d4276a5cdae"
+source = "git+https://github.com/bjz/glfw-rs.git#848816edfdaf3cca21fbb9172ea6635f623d558c"
 dependencies = [
  "glfw-sys 3.0.4 (git+https://github.com/servo/glfw?ref=cargo-3.0.4)",
  "semver 0.1.0 (git+https://github.com/rust-lang/semver)",
@@ -40,15 +40,15 @@ source = "git+https://github.com/servo/glfw?ref=cargo-3.0.4#0e13d32555fb72b38ba1
 [[package]]
 name = "khronos_api"
 version = "0.0.1"
-source = "git+https://github.com/bjz/gl-rs#cd03840a3cdbb947feb3a8aa8b74ac7ff8428d60"
+source = "git+https://github.com/bjz/gl-rs#c93ac7204b36adc5f52f08fb675d31d2c41bb14a"
 
 [[package]]
 name = "rust-xml"
 version = "0.1.0"
-source = "git+https://github.com/netvl/rust-xml#cdcadd4761a1e3aa5f937321e4d30507604c6fc2"
+source = "git+https://github.com/netvl/rust-xml#4876722236a9c0f973e4867e3b2971368ed3111b"
 
 [[package]]
 name = "semver"
 version = "0.1.0"
-source = "git+https://github.com/rust-lang/semver#c7227f131c0855f9b0fdc169f767aff589a139a9"
+source = "git+https://github.com/rust-lang/semver#fdaec35ff5db609f53119f1e455fdd8830edc790"
 

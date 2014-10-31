@@ -1,3 +1,4 @@
-pub mod shaders;
+pub mod direct_mode;
+pub mod shader_model;
+
 pub mod renderer;
-pub mod vertex_object;

@@ -16,12 +16,15 @@ enum RenderingMessage<T : Send>{
 	RenderData(T),
 }
 
-fn glfw_loop<G: Game + Send + Clone>(
+fn glfw_loop<G,R>(
 	glfw:        glfw::Glfw,
 	window:      &mut glfw::Window,
 	events:      Receiver<(f64,glfw::WindowEvent)>,
-	renderer:    Renderer,
-){
+	renderer:    R,
+)
+	where G: Game + Send + Clone,
+	      R: Renderer + Send
+{
 	//Init
 	let mut game: G = Game::init();
 
@@ -67,7 +70,7 @@ fn glfw_loop<G: Game + Send + Clone>(
 		}
 
 		//Update
-		game.update(glfw.get_time() - previous_time);
+		game.update(glfw.get_time() - previous_time);//TODO: CHange game.update parameter to Duration
 		render_send.send(RenderData(game.clone()));
 
 		//Timing
@@ -83,8 +86,10 @@ fn glfw_loop<G: Game + Send + Clone>(
 	let _ = render_task.unwrap();
 }
 
-pub struct GameHandler<G> where G: Game + Send + Clone;
-impl<G: Game + Send + Clone> GameHandlerTrait<G> for GameHandler<G>{
+pub struct GameHandler<G,R>
+	where G: Game + Send + Clone,
+	      R: Renderer + Send;
+impl<G: Game + Send + Clone,R: Renderer + Send> GameHandlerTrait<G> for GameHandler<G,R>{
 	fn run(&self){
 		let glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
 
@@ -110,11 +115,11 @@ impl<G: Game + Send + Clone> GameHandlerTrait<G> for GameHandler<G>{
 		gl::Disable(gl::DEPTH_TEST);
 
 		{
-			let renderer = Renderer::initiated();
+			let renderer: R = Renderer::initiated();
 			renderer.init_projection(0,0,640,480);
 
 			//Main loop
-			glfw_loop::<G>(glfw,&mut window,events,renderer);
+			glfw_loop::<G,R>(glfw,&mut window,events,renderer);
 		}
 	}
 }
