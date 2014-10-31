@@ -94,9 +94,9 @@ impl<G: Game + Send + Clone,R: Renderer + Send> GameHandlerTrait<G> for GameHand
 		let glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
 
 		//Window
-		glfw.window_hint(glfw::ContextVersion(3,2));
+		/*glfw.window_hint(glfw::ContextVersion(3,2));
 		glfw.window_hint(glfw::OpenglForwardCompat(true));
-		glfw.window_hint(glfw::OpenglProfile(glfw::OpenGlCoreProfile));
+		glfw.window_hint(glfw::OpenglProfile(glfw::OpenGlCoreProfile));*/
 
 		let (mut window,events) = glfw.create_window(640,480,"GLTest",glfw::Windowed)
 			.expect("Failed to create GLFW window.");
