@@ -1,7 +1,7 @@
 extern crate std;
 extern crate core;
 
-use std::num::One;
+use std::num;
 
 #[deriving(Clone,Zero)]
 pub struct Vector2<T>(pub T,pub T);
@@ -12,7 +12,7 @@ impl<T> Vector2<T>{
 	}
 }
 
-impl<T: FloatMath + Sub<T,T> + One + core::fmt::Show> Vector2<T>{
+impl<T: FloatMath + Sub<T,T>> Vector2<T>{
 	pub fn limit_magnitude(&mut self,magnitude: T){
 		let current_magnitude = self.0*self.0 + self.1*self.1;
 		if current_magnitude > magnitude*magnitude{
@@ -24,6 +24,16 @@ impl<T: FloatMath + Sub<T,T> + One + core::fmt::Show> Vector2<T>{
 
 	pub fn magnitude(&self) -> T{
 		return self.0.hypot(self.1);
+	}
+
+	pub fn unit(&self) -> Vector2<T>{
+		*self / self.magnitude()
+	}
+}
+
+impl<T: num::One> /*num::One for*/ Vector2<T>{
+	pub fn one() -> Vector2<T>{
+		Vector2(num::One::one(),num::One::one())
 	}
 }
 
@@ -50,16 +60,42 @@ impl<T: Mul<T,T>> Mul<T,Vector2<T>> for Vector2<T>{
 		return Vector2(self.0 * *other,self.1 * *other);
 	}
 }
-/*
+
 impl<T: Mul<T,T> + Add<T,T>> Mul<Vector2<T>,T> for Vector2<T>{
+	/// Dot product
 	fn mul(&self, other: &Vector2<T>) -> T{
-		return self.0 * other.0 + self.1 * other.1;
+		self.dot_product(other)
 	}
 }
-*/
+
+impl<T: Mul<T,T> + Add<T,T>> Vector2<T>{
+	pub fn dot_product(&self,other: &Vector2<T>) -> T{
+		self.0 * other.0 + self.1 * other.1
+	}
+}
+
 impl<T: Div<T,T>> Div<T,Vector2<T>> for Vector2<T>{
 	fn div(&self, other: &T) -> Vector2<T>{
 		return Vector2(self.0 / *other,self.1 / *other);
+	}
+}
+
+impl<T: Neg<T>> Neg<Vector2<T>> for Vector2<T>{
+	fn neg(&self) -> Vector2<T>{
+		return Vector2(-self.0,-self.1);
+	}
+}
+
+impl<T: Signed> Vector2<T>{
+	pub fn abs(&self) -> Vector2<T>{
+		return Vector2(self.0.abs(),self.1.abs());
+	}
+}
+
+impl<T: Mul<T,T> + Add<T,T> + FloatMath + Sub<T,T>> Vector2<T>{
+	/// Projection of self on other
+	pub fn project(&self,other: &Vector2<T>) -> Vector2<T>{
+		other * (self.dot_product(other) / other.dot_product(other))
 	}
 }
 
