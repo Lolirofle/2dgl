@@ -1,6 +1,5 @@
-extern crate gl;
 use gl::types::*;
-use lolirofle::data::vector::Vector2;
+use data::vector::Vector2;
 
 pub trait Renderer{
 	fn initiated() -> Self;

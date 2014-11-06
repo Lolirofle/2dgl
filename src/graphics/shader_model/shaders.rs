@@ -1,8 +1,6 @@
-extern crate gl;
-
-use std::str;
-use std::ptr;
+use gl;
 use gl::types::*;
+use std::{ptr,str};
 
 /**
  * @param shader_type `gl::VERTEX_SHADER` or `gl::FRAGMENT_SHADER`

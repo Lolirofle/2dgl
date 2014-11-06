@@ -1,12 +1,11 @@
-extern crate core;
-extern crate gl;
-extern crate glfw;
+use gl;
+use glfw;
 
 use glfw::Context;
-use lolirofle::gl::renderer::Renderer;
-use lolirofle::game::gameloop::*;
-use lolirofle::game::Game;
-use lolirofle::game_handler::GameHandler as GameHandlerTrait;
+use graphics::renderer::Renderer;
+use game::gameloop::*;
+use game::Game;
+use game_handler::GameHandler as GameHandlerTrait;
 use std::task::TaskBuilder;
 use std::io::timer;
 use std::time::Duration;

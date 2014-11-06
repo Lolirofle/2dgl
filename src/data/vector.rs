@@ -1,5 +1,4 @@
-extern crate std;
-extern crate core;
+use std;
 
 use std::num;
 
