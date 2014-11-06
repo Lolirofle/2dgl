@@ -1,8 +1,9 @@
 use game::Game;
 use graphics::renderer::Renderer;
+use std::time::Duration;
 
-pub trait Updatable<G: Game>{
-	fn update(&mut self,game: &G,delta_time: f64);
+pub trait Updatable<U>{//TODO: Transitive verbs as trait names, also avoid suffixes. Maybe change to just Update?
+	fn update(&mut self,data: U,delta_time: Duration);
 }
 
 pub trait Renderable{
