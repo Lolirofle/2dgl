@@ -5,5 +5,10 @@ extern crate core;
 extern crate collections;
 extern crate gl;
 extern crate glfw;
+extern crate rustrt;
+extern crate time;
 
-pub mod lolirofle;
+pub mod data;
+pub mod game_handler;
+pub mod game;
+pub mod graphics;

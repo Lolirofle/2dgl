@@ -1,10 +1,9 @@
-extern crate gl;
-
+use gl;
 use gl::types::*;
-use lolirofle::data::vector::Vector2;
-use lolirofle::gl::shader_model::shaders;
-use lolirofle::gl::shader_model::vertex_object::VertexObject;
-use lolirofle::gl::renderer::Renderer as RendererTrait;
+use data::vector::Vector2;
+use graphics::shader_model::shaders;
+use graphics::shader_model::vertex_object::VertexObject;
+use graphics::renderer::Renderer as RendererTrait;
 use std::mem;
 use std::ptr;
 

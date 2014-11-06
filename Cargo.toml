@@ -9,6 +9,3 @@ git = "https://github.com/bjz/glfw-rs.git"
 
 [dependencies.gl]
 git = "https://github.com/bjz/gl-rs"
-
-[lib]
-name = "2dgl"

@@ -1,5 +1,5 @@
-use lolirofle::game::Game;
-use lolirofle::gl::renderer::Renderer;
+use game::Game;
+use graphics::renderer::Renderer;
 
 pub trait Updatable<G: Game>{
 	fn update(&mut self,game: &G,delta_time: f64);

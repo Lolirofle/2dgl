@@ -1,4 +1,4 @@
-use lolirofle::game::Game;
+use game::Game;
 
 pub mod multithreaded;
 pub mod singlethreaded;

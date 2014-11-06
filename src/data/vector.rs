@@ -1,5 +1,5 @@
-extern crate std;
-extern crate core;
+use std;
+use core;
 
 use std::num::One;
 

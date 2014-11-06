@@ -1,8 +1,7 @@
-extern crate gl;
-
+use gl;
 use gl::types::*;
-use lolirofle::data::vector::Vector2;
-use lolirofle::gl::renderer::Renderer as RendererTrait;
+use data::vector::Vector2;
+use graphics::renderer::Renderer as RendererTrait;
 
 pub struct Renderer;
 impl RendererTrait for Renderer{

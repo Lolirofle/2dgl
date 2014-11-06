@@ -1,4 +1,4 @@
-use lolirofle::gl::renderer::Renderer;
+use graphics::renderer::Renderer;
 use glfw;
 
 pub mod gameloop;
