@@ -4,8 +4,9 @@ use data::vector::Vector2;
 use graphics::renderer::Renderer as RendererTrait;
 
 pub struct Renderer;
-impl RendererTrait for Renderer{
-	unsafe fn initiated() -> Renderer{
+
+impl Renderer{
+	pub unsafe fn new() -> Renderer{
 		gl::Enable(gl::TEXTURE_2D);
 		gl::Enable(gl::COLOR_MATERIAL);
 		gl::Disable(gl::DEPTH_TEST);
@@ -21,7 +22,9 @@ impl RendererTrait for Renderer{
 
 		return Renderer;
 	}
+}
 
+impl RendererTrait for Renderer{
 	unsafe fn render_rectangle(&self,Vector2(x,y): Vector2<GLfloat>,Vector2(w,h): Vector2<GLfloat>){
 		let x2 = x+w;
 		let y2 = y+h;

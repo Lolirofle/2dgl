@@ -60,8 +60,8 @@ pub struct Renderer{
 	fragment_shader: GLuint,
 	shader_program: GLuint,
 }
-impl RendererTrait for Renderer{
-	unsafe fn initiated() -> Renderer{
+impl Renderer{
+	pub unsafe fn new() -> Renderer{
 		gl::Enable(gl::TEXTURE_2D);
 		gl::Disable(gl::DEPTH_TEST);
 
@@ -108,7 +108,8 @@ impl RendererTrait for Renderer{
 			shader_program: shader_program,
 		}
 	}
-
+}
+impl RendererTrait for Renderer{
 	unsafe fn render_rectangle(&self,Vector2(x,y): Vector2<GLfloat>,Vector2(w,h): Vector2<GLfloat>){
 		gl::Uniform2f(self.position_loc,x,y);
 		gl::Uniform2f(self.size_loc    ,w,h);

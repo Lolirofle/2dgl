@@ -3,31 +3,28 @@ use time;
 use game::gameloop::{Updatable,Renderable};
 use game::Game;   
 use game_handler::GameHandler as GameHandlerTrait;
-use game_handler::Instance as GameHandlerInstance;
 use graphics::renderer::Renderer;
 use std::io::timer;
 
-pub struct GameHandler<G,R,E,RenderData>
-	where G: Game<E>,
+pub struct GameHandler<G,R,RenderData>
+	where G: Game<(),RenderData>,
 	      R: Renderer;
 
-impl<G,R,E,RenderData> GameHandlerTrait<G,R,E,RenderData> for GameHandler<G,R,E,RenderData>
-	where G: Game<E>,
+impl<G,R,RenderData> GameHandlerTrait<G,R,RenderData> for GameHandler<G,R,RenderData>
+	where G: Game<(),RenderData>,
 	      R: Renderer
 {
-	fn run(&self,renderer: R,instance: &GameHandlerInstance<G,E,RenderData>,game: &mut G){
+	fn run(&self,renderer: R,game: &mut G){
 		//Init
 		let mut previous_time = time::get_time();
 		let mut next_time     = previous_time;
 
 		//Render
-		instance.init_render();
+		let mut render_data = game.init_render();
 
 		loop{
-			//Fetch events, processing each
-			/*for e in instance.event(){
-				game.event(e);
-			}*/
+			//Process events
+			game.event(());
 
 			//Check if the window should close
 			if game.should_exit(){
@@ -44,7 +41,7 @@ impl<G,R,E,RenderData> GameHandlerTrait<G,R,E,RenderData> for GameHandler<G,R,E,
 			previous_time = current_time;
 
 			//Render
-			game.render(&renderer);
+			game.render(&renderer,&mut render_data);
 		}
 	}
 }
