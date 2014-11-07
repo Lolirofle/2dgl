@@ -1,4 +1,3 @@
-use game::Game;
 use graphics::renderer::Renderer;
 use std::time::Duration;
 

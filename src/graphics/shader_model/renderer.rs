@@ -75,39 +75,37 @@ impl RendererTrait for Renderer{
 		//Use shader program
 		gl::UseProgram(shader_program);
 
-		unsafe{
-			///////////////////////////////////////////////
-			// Prepare uniform variable locations
+		///////////////////////////////////////////////
+		// Prepare uniform variable locations
 
-			let position_loc         = "pos".with_c_str(|ptr| gl::GetUniformLocation(shader_program,ptr));
-			let size_loc             = "size".with_c_str(|ptr| gl::GetUniformLocation(shader_program,ptr));
-			let framebuffer_size_loc = "frameBufferSize".with_c_str(|ptr| gl::GetUniformLocation(shader_program,ptr));
+		let position_loc         = "pos".with_c_str(|ptr| gl::GetUniformLocation(shader_program,ptr));
+		let size_loc             = "size".with_c_str(|ptr| gl::GetUniformLocation(shader_program,ptr));
+		let framebuffer_size_loc = "frameBufferSize".with_c_str(|ptr| gl::GetUniformLocation(shader_program,ptr));
 
-			///////////////////////////////////////////////
-			// Prepare attribute (in) variable locations
+		///////////////////////////////////////////////
+		// Prepare attribute (in) variable locations
 
-			let vertex_coord = "vertexCoord".with_c_str(|ptr| gl::GetAttribLocation(shader_program,ptr));
+		let vertex_coord = "vertexCoord".with_c_str(|ptr| gl::GetAttribLocation(shader_program,ptr));
 
-			///////////////////////////////////////////////
-			// Prepare unit square
-			let unit_square = create_unit_square();
-			gl::BindVertexArray(unit_square.array);
+		///////////////////////////////////////////////
+		// Prepare unit square
+		let unit_square = create_unit_square();
+		gl::BindVertexArray(unit_square.array);
 
-			gl::EnableVertexAttribArray(vertex_coord as GLuint);
-			gl::VertexAttribPointer(vertex_coord as GLuint,2,gl::FLOAT,gl::FALSE as GLboolean,0,ptr::null());
+		gl::EnableVertexAttribArray(vertex_coord as GLuint);
+		gl::VertexAttribPointer(vertex_coord as GLuint,2,gl::FLOAT,gl::FALSE as GLboolean,0,ptr::null());
 
-			//Fragment shader data
-			"out_color".with_c_str(|ptr| gl::BindFragDataLocation(shader_program,0,ptr));
+		//Fragment shader data
+		"out_color".with_c_str(|ptr| gl::BindFragDataLocation(shader_program,0,ptr));
 
-			return Renderer{
-				unit_square: unit_square,
-				position_loc: position_loc,
-				framebuffer_size_loc: framebuffer_size_loc,
-				size_loc: size_loc,
-				vertex_shader: vertex_shader,
-				fragment_shader: fragment_shader,
-				shader_program: shader_program,
-			}
+		return Renderer{
+			unit_square: unit_square,
+			position_loc: position_loc,
+			framebuffer_size_loc: framebuffer_size_loc,
+			size_loc: size_loc,
+			vertex_shader: vertex_shader,
+			fragment_shader: fragment_shader,
+			shader_program: shader_program,
 		}
 	}
 

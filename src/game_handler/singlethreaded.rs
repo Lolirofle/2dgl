@@ -1,14 +1,11 @@
-use core;
-use gl;
 use time;
 
-use game::gameloop::{Updatable,Renderable,EventHandler};
+use game::gameloop::{Updatable,Renderable};
 use game::Game;   
 use game_handler::GameHandler as GameHandlerTrait;
 use game_handler::Instance as GameHandlerInstance;
 use graphics::renderer::Renderer;
 use std::io::timer;
-use std::time::Duration;
 
 pub struct GameHandler<G,R,E,RenderData>
 	where G: Game<E>,

@@ -4,7 +4,6 @@
 extern crate core;
 extern crate collections;
 extern crate gl;
-extern crate glfw;
 extern crate rustrt;
 extern crate time;
 

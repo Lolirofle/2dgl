@@ -1,17 +1,12 @@
-use core;
-use gl;
 use time;
-use rustrt;
 
-use game::gameloop::{Updatable,Renderable,EventHandler};
+use game::gameloop::{Updatable,Renderable};
 use game::Game;
 use game_handler::GameHandler as GameHandlerTrait;
 use game_handler::Instance as GameHandlerInstance;
 use graphics::renderer::Renderer;
 use rustrt::thread::Thread;
 use std::io::timer;
-use std::time::Duration;
-use std::mem;
 
 enum RenderingMessage<T : Send>{
 	RenderStop,

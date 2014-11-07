@@ -1,5 +1,4 @@
 use game::gameloop::{Updatable,Renderable,EventHandler};
-use graphics::renderer::Renderer;
 use std::time::Duration;
 
 pub mod gameloop;
