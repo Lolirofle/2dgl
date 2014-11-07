@@ -62,6 +62,12 @@ pub struct Renderer{
 }
 impl RendererTrait for Renderer{
 	fn initiated() -> Renderer{
+		gl::Enable(gl::TEXTURE_2D);
+		gl::Disable(gl::DEPTH_TEST);
+
+		gl::Enable(gl::BLEND);
+		gl::BlendFunc(gl::SRC_ALPHA,gl::ONE_MINUS_SRC_ALPHA);
+
 		let vertex_shader   = shaders::compile_shader(VERTEX_SHADER_SRC  ,gl::VERTEX_SHADER);
 		let fragment_shader = shaders::compile_shader(FRAGMENT_SHADER_SRC,gl::FRAGMENT_SHADER);
 		let shader_program  = shaders::link_program(vertex_shader,fragment_shader);

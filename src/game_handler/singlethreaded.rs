@@ -19,20 +19,6 @@ impl<G,R,E,RenderData> GameHandlerTrait<G,R,E,RenderData> for GameHandler<G,R,E,
 	      R: Renderer
 {
 	fn run(&self,renderer: R,instance: &GameHandlerInstance<G,E,RenderData>,game: &mut G){
-		//Initialize GL
-		gl::Enable(gl::TEXTURE_2D);
-		gl::Disable(gl::DEPTH_TEST);
-		
-		gl::Disable(gl::LIGHTING);//TODO: Deprecated OpenGL functions?
-		gl::ShadeModel(gl::FLAT);
-
-		gl::ClearColor(0.0,0.0,0.0,1.0);
-		gl::ClearDepth(1.0);
-
-		gl::Enable(gl::BLEND);
-		gl::BlendFunc(gl::SRC_ALPHA,gl::ONE_MINUS_SRC_ALPHA);
-
-		//Main loop
 		//Init
 		let mut previous_time = time::get_time();
 		let mut next_time     = previous_time;

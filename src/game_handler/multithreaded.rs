@@ -27,16 +27,6 @@ impl<G,R,E,RenderData> GameHandlerTrait<G,R,E,RenderData> for GameHandler<G,R,E,
 	      R: Renderer + Send,
 {
 	fn run(&self,mut renderer: R,instance: &GameHandlerInstance<G,E,RenderData>,game: &mut G){
-		//Initialize GL
-		gl::ClearColor(0.0,0.0,0.0,1.0);
-		gl::Enable(gl::TEXTURE_2D);
-
-		gl::Enable(gl::BLEND);
-		gl::BlendFunc(gl::SRC_ALPHA,gl::ONE_MINUS_SRC_ALPHA);
-		gl::Disable(gl::DEPTH_TEST);
-
-		//Main loop
-
 		//Render
 		let mut render_game = game.clone();
 

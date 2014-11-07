@@ -8,11 +8,16 @@ impl RendererTrait for Renderer{
 	fn initiated() -> Renderer{
 		gl::Enable(gl::TEXTURE_2D);
 		gl::Enable(gl::COLOR_MATERIAL);
+		gl::Disable(gl::DEPTH_TEST);
+
+		gl::Disable(gl::LIGHTING);
+		gl::ShadeModel(gl::FLAT);
+
+		gl::ClearColor(0.0,0.0,0.0,1.0);
+		gl::ClearDepth(1.0);
+
 		gl::Enable(gl::BLEND);
 		gl::BlendFunc(gl::SRC_ALPHA,gl::ONE_MINUS_SRC_ALPHA);
-		gl::ShadeModel(gl::FLAT);
-		gl::Disable(gl::DEPTH_TEST);
-		gl::Disable(gl::LIGHTING);
 
 		return Renderer;
 	}
