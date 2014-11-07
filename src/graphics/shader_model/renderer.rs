@@ -61,7 +61,7 @@ pub struct Renderer{
 	shader_program: GLuint,
 }
 impl RendererTrait for Renderer{
-	fn initiated() -> Renderer{
+	unsafe fn initiated() -> Renderer{
 		gl::Enable(gl::TEXTURE_2D);
 		gl::Disable(gl::DEPTH_TEST);
 
@@ -111,27 +111,25 @@ impl RendererTrait for Renderer{
 		}
 	}
 
-	fn render_rectangle(&self,Vector2(x,y): Vector2<GLfloat>,Vector2(w,h): Vector2<GLfloat>){
+	unsafe fn render_rectangle(&self,Vector2(x,y): Vector2<GLfloat>,Vector2(w,h): Vector2<GLfloat>){
 		gl::Uniform2f(self.position_loc,x,y);
 		gl::Uniform2f(self.size_loc    ,w,h);
 
 		gl::DrawArrays(gl::TRIANGLES,0,self.unit_square.size as GLint);
 	}
 
-	fn init_projection(&self,x:GLint,y:GLint,width:GLuint,height:GLuint){
+	unsafe fn init_projection(&self,x:GLint,y:GLint,width:GLuint,height:GLuint){
 		gl::Viewport(x,y,width as GLint,height as GLint);
 		gl::Uniform2f(self.framebuffer_size_loc,width as GLfloat,height as GLfloat);
 	}
 }
 impl Drop for Renderer{
-	fn drop(&mut self){
+	fn drop(&mut self){unsafe{
 		//Free
 		gl::DeleteProgram(self.shader_program);
 		gl::DeleteShader(self.fragment_shader);
 		gl::DeleteShader(self.vertex_shader);
-		unsafe{
-			gl::DeleteBuffers(1,&self.unit_square.buffer);
-			gl::DeleteVertexArrays(1,&self.unit_square.array);
-		}
-	}
+		gl::DeleteBuffers(1,&self.unit_square.buffer);
+		gl::DeleteVertexArrays(1,&self.unit_square.array);
+	}}
 }

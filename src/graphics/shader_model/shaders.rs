@@ -5,7 +5,7 @@ use std::{ptr,str};
 /**
  * @param shader_type `gl::VERTEX_SHADER` or `gl::FRAGMENT_SHADER`
  */
-pub fn compile_shader(src: &str,shader_type: GLenum) -> GLuint{
+pub unsafe fn compile_shader(src: &str,shader_type: GLenum) -> GLuint{
 	let shader = gl::CreateShader(shader_type);
 	unsafe {
 		//Attempt to compile the shader
@@ -28,7 +28,7 @@ pub fn compile_shader(src: &str,shader_type: GLenum) -> GLuint{
 	shader
 }
 
-pub fn link_program(vertex_shader: GLuint,fragment_shader: GLuint) -> GLuint{
+pub unsafe fn link_program(vertex_shader: GLuint,fragment_shader: GLuint) -> GLuint{
 	let program = gl::CreateProgram();
 	gl::AttachShader(program,vertex_shader);
 	gl::AttachShader(program,fragment_shader);

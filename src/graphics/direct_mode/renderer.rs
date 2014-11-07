@@ -5,7 +5,7 @@ use graphics::renderer::Renderer as RendererTrait;
 
 pub struct Renderer;
 impl RendererTrait for Renderer{
-	fn initiated() -> Renderer{
+	unsafe fn initiated() -> Renderer{
 		gl::Enable(gl::TEXTURE_2D);
 		gl::Enable(gl::COLOR_MATERIAL);
 		gl::Disable(gl::DEPTH_TEST);
@@ -22,7 +22,7 @@ impl RendererTrait for Renderer{
 		return Renderer;
 	}
 
-	fn render_rectangle(&self,Vector2(x,y): Vector2<GLfloat>,Vector2(w,h): Vector2<GLfloat>){
+	unsafe fn render_rectangle(&self,Vector2(x,y): Vector2<GLfloat>,Vector2(w,h): Vector2<GLfloat>){
 		let x2 = x+w;
 		let y2 = y+h;
 		gl::Begin(gl::LINE_LOOP);
@@ -33,7 +33,7 @@ impl RendererTrait for Renderer{
 		gl::End();
 	}
 
-	fn init_projection(&self,x:GLint,y:GLint,width:GLuint,height:GLuint){
+	unsafe fn init_projection(&self,x:GLint,y:GLint,width:GLuint,height:GLuint){
 		gl::MatrixMode(gl::PROJECTION);
 		gl::LoadIdentity();
 
