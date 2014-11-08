@@ -1,6 +1,6 @@
 use gl;
 use gl::types::*;
-use data::vector::Vector2;
+use data::vector::coord_vector::CoordVector2 as Vector2;
 use graphics::shader_model::shaders;
 use graphics::shader_model::vertex_object::VertexObject;
 use graphics::renderer::Renderer as RendererTrait;
@@ -110,9 +110,9 @@ impl Renderer{
 	}
 }
 impl RendererTrait for Renderer{
-	unsafe fn render_rectangle(&self,Vector2(x,y): Vector2<GLfloat>,Vector2(w,h): Vector2<GLfloat>){
-		gl::Uniform2f(self.position_loc,x,y);
-		gl::Uniform2f(self.size_loc    ,w,h);
+	unsafe fn render_rectangle(&self,pos: Vector2<GLfloat>,dim: Vector2<GLfloat>){
+		gl::Uniform2f(self.position_loc,pos.x,pos.y);
+		gl::Uniform2f(self.size_loc    ,dim.x,dim.y);
 
 		gl::DrawArrays(gl::TRIANGLES,0,self.unit_square.size as GLint);
 	}
