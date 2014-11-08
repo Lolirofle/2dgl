@@ -1,3 +1,3 @@
 //! Data structures
 
-pub mod vector;
+pub mod vector2;

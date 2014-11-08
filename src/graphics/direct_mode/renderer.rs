@@ -1,6 +1,6 @@
 use gl;
 use gl::types::*;
-use data::vector::coord_vector::CoordVector2 as Vector2;
+use data::vector2::coord_vector::Vector;
 use graphics::renderer::Renderer as RendererTrait;
 
 pub struct Renderer;
@@ -25,7 +25,7 @@ impl Renderer{
 }
 
 impl RendererTrait for Renderer{
-	unsafe fn render_rectangle(&self,pos: Vector2<GLfloat>,dim: Vector2<GLfloat>){
+	unsafe fn render_rectangle(&self,pos: Vector<GLfloat>,dim: Vector<GLfloat>){
 		let x2 = pos.x + dim.x;
 		let y2 = pos.y + dim.y;
 		gl::Begin(gl::LINE_LOOP);
