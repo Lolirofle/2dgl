@@ -1,9 +1,12 @@
+//! Mathematical vector data structures
+
 use std::num::Zero;
 use std::ops::Neg;
 
 pub mod coord_vector;
 
-//TODO: More generic, do not use Self for the "other" paramters. Will it be inefficient?
+//TODO: More generalized, do not use Self for the "other" paramters. Will it be inefficient?
+/// Generalized two dimensional vector
 pub trait Vector2<T>
 	: Add<Self,Self>
 	+ Sub<Self,Self>
@@ -12,7 +15,8 @@ pub trait Vector2<T>
 	+ Neg<Self>
 	+ Zero
 {
-	fn from_generic<V: Vector2<T>>(v: &V) -> Self;
+	/// Constructor for constructing from a generalized vector
+	fn from_vector2<V: Vector2<T>>(v: &V) -> Self;
 
 	/// The x coordinate that this vector represents
 	fn x(&self) -> T;

@@ -1,3 +1,5 @@
+//! Stuff related to game loops
+
 use graphics::renderer::Renderer;
 use std::time::Duration;
 

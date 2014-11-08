@@ -1,3 +1,5 @@
+//! Takes care of the abstraction of a game application
+
 use game::Game;
 use graphics::renderer::Renderer;
 

@@ -1,8 +1,11 @@
+//! Abstractions for a game application
+
 use game::gameloop::{Update,Render,EventHandler};
 use std::time::Duration;
 
 pub mod gameloop;
 
+/// An abstract game that is handled by GameHandler
 pub trait Game<E,R>: Update<()> + Render<R> + EventHandler<E>{
 	/// Whether the execution of the game should terminate.
 	/// This should be handled by the game handler.

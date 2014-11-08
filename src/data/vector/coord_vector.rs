@@ -2,14 +2,18 @@ use std::{fmt,num};
 
 use data::vector::Vector2;
 
+/// Vector that uses the dimensional axes as internal storage
 #[deriving(Clone,Zero)]
 pub struct CoordVector2<T>{
+	/// The horizontal axis
 	pub x: T,
+	
+	/// The vertical axis
 	pub y: T
 }
 
 impl<T: FloatMath + Mul<T,T> + Div<T,T>> Vector2<T> for CoordVector2<T>{//TODO: Mul and Div are only required for `dot_product`, `unit` and `project`. Separate if that will be implemented in rustc
-	fn from_generic<V: Vector2<T>>(v: &V) -> CoordVector2<T>{
+	fn from_vector2<V: Vector2<T>>(v: &V) -> CoordVector2<T>{
 		return CoordVector2{x: v.x(),y: v.y()};
 	}
 
