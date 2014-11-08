@@ -1,6 +1,6 @@
 use gl;
 use gl::types::*;
-use data::vector::Vector2;
+use data::vector::coord_vector::CoordVector2 as Vector2;
 use graphics::shader_model::shaders;
 use graphics::shader_model::vertex_object::VertexObject;
 use graphics::renderer::Renderer as RendererTrait;
@@ -60,8 +60,14 @@ pub struct Renderer{
 	fragment_shader: GLuint,
 	shader_program: GLuint,
 }
-impl RendererTrait for Renderer{
-	fn initiated() -> Renderer{
+impl Renderer{
+	pub unsafe fn new() -> Renderer{
+		gl::Enable(gl::TEXTURE_2D);
+		gl::Disable(gl::DEPTH_TEST);
+
+		gl::Enable(gl::BLEND);
+		gl::BlendFunc(gl::SRC_ALPHA,gl::ONE_MINUS_SRC_ALPHA);
+
 		let vertex_shader   = shaders::compile_shader(VERTEX_SHADER_SRC  ,gl::VERTEX_SHADER);
 		let fragment_shader = shaders::compile_shader(FRAGMENT_SHADER_SRC,gl::FRAGMENT_SHADER);
 		let shader_program  = shaders::link_program(vertex_shader,fragment_shader);
@@ -69,63 +75,60 @@ impl RendererTrait for Renderer{
 		//Use shader program
 		gl::UseProgram(shader_program);
 
-		unsafe{
-			///////////////////////////////////////////////
-			// Prepare uniform variable locations
+		///////////////////////////////////////////////
+		// Prepare uniform variable locations
 
-			let position_loc         = "pos".with_c_str(|ptr| gl::GetUniformLocation(shader_program,ptr));
-			let size_loc             = "size".with_c_str(|ptr| gl::GetUniformLocation(shader_program,ptr));
-			let framebuffer_size_loc = "frameBufferSize".with_c_str(|ptr| gl::GetUniformLocation(shader_program,ptr));
+		let position_loc         = "pos".with_c_str(|ptr| gl::GetUniformLocation(shader_program,ptr));
+		let size_loc             = "size".with_c_str(|ptr| gl::GetUniformLocation(shader_program,ptr));
+		let framebuffer_size_loc = "frameBufferSize".with_c_str(|ptr| gl::GetUniformLocation(shader_program,ptr));
 
-			///////////////////////////////////////////////
-			// Prepare attribute (in) variable locations
+		///////////////////////////////////////////////
+		// Prepare attribute (in) variable locations
 
-			let vertex_coord = "vertexCoord".with_c_str(|ptr| gl::GetAttribLocation(shader_program,ptr));
+		let vertex_coord = "vertexCoord".with_c_str(|ptr| gl::GetAttribLocation(shader_program,ptr));
 
-			///////////////////////////////////////////////
-			// Prepare unit square
-			let unit_square = create_unit_square();
-			gl::BindVertexArray(unit_square.array);
+		///////////////////////////////////////////////
+		// Prepare unit square
+		let unit_square = create_unit_square();
+		gl::BindVertexArray(unit_square.array);
 
-			gl::EnableVertexAttribArray(vertex_coord as GLuint);
-			gl::VertexAttribPointer(vertex_coord as GLuint,2,gl::FLOAT,gl::FALSE as GLboolean,0,ptr::null());
+		gl::EnableVertexAttribArray(vertex_coord as GLuint);
+		gl::VertexAttribPointer(vertex_coord as GLuint,2,gl::FLOAT,gl::FALSE as GLboolean,0,ptr::null());
 
-			//Fragment shader data
-			"out_color".with_c_str(|ptr| gl::BindFragDataLocation(shader_program,0,ptr));
+		//Fragment shader data
+		"out_color".with_c_str(|ptr| gl::BindFragDataLocation(shader_program,0,ptr));
 
-			return Renderer{
-				unit_square: unit_square,
-				position_loc: position_loc,
-				framebuffer_size_loc: framebuffer_size_loc,
-				size_loc: size_loc,
-				vertex_shader: vertex_shader,
-				fragment_shader: fragment_shader,
-				shader_program: shader_program,
-			}
+		return Renderer{
+			unit_square: unit_square,
+			position_loc: position_loc,
+			framebuffer_size_loc: framebuffer_size_loc,
+			size_loc: size_loc,
+			vertex_shader: vertex_shader,
+			fragment_shader: fragment_shader,
+			shader_program: shader_program,
 		}
 	}
-
-	fn render_rectangle(&self,Vector2(x,y): Vector2<GLfloat>,Vector2(w,h): Vector2<GLfloat>){
-		gl::Uniform2f(self.position_loc,x,y);
-		gl::Uniform2f(self.size_loc    ,w,h);
+}
+impl RendererTrait for Renderer{
+	unsafe fn render_rectangle(&self,pos: Vector2<GLfloat>,dim: Vector2<GLfloat>){
+		gl::Uniform2f(self.position_loc,pos.x,pos.y);
+		gl::Uniform2f(self.size_loc    ,dim.x,dim.y);
 
 		gl::DrawArrays(gl::TRIANGLES,0,self.unit_square.size as GLint);
 	}
 
-	fn init_projection(&self,x:GLint,y:GLint,width:GLuint,height:GLuint){
+	unsafe fn init_projection(&self,x:GLint,y:GLint,width:GLuint,height:GLuint){
 		gl::Viewport(x,y,width as GLint,height as GLint);
 		gl::Uniform2f(self.framebuffer_size_loc,width as GLfloat,height as GLfloat);
 	}
 }
 impl Drop for Renderer{
-	fn drop(&mut self){
+	fn drop(&mut self){unsafe{
 		//Free
 		gl::DeleteProgram(self.shader_program);
 		gl::DeleteShader(self.fragment_shader);
 		gl::DeleteShader(self.vertex_shader);
-		unsafe{
-			gl::DeleteBuffers(1,&self.unit_square.buffer);
-			gl::DeleteVertexArrays(1,&self.unit_square.array);
-		}
-	}
+		gl::DeleteBuffers(1,&self.unit_square.buffer);
+		gl::DeleteVertexArrays(1,&self.unit_square.array);
+	}}
 }

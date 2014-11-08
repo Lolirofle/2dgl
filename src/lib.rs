@@ -1,10 +1,14 @@
+#![crate_name = "2dgl"]
+#![comment = "Personal library for building games"]
+#![license = "MIT"]
+#![crate_type = "lib"]
+
 #![feature(globs)]
 #![feature(tuple_indexing)]
 
 extern crate core;
 extern crate collections;
 extern crate gl;
-extern crate glfw;
 extern crate rustrt;
 extern crate time;
 
