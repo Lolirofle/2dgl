@@ -1,3 +1,5 @@
+extern crate libc;
+
 use gl;
 use gl::types::*;
 use data::vector2::coord_vector::Vector;
@@ -61,7 +63,9 @@ pub struct Renderer{
 	shader_program: GLuint,
 }
 impl Renderer{
-	pub unsafe fn new() -> Renderer{
+	pub fn new(proc_address: |&str| -> *const libc::c_void) -> Renderer{unsafe{
+		gl::load_with(proc_address);
+
 		gl::Enable(gl::TEXTURE_2D);
 		gl::Disable(gl::DEPTH_TEST);
 
@@ -107,20 +111,24 @@ impl Renderer{
 			fragment_shader: fragment_shader,
 			shader_program: shader_program,
 		}
-	}
+	}}
 }
 impl RendererTrait for Renderer{
-	unsafe fn render_rectangle(&self,pos: Vector<GLfloat>,dim: Vector<GLfloat>){
+	fn render_rectangle(&self,pos: Vector<GLfloat>,dim: Vector<GLfloat>){unsafe{
 		gl::Uniform2f(self.position_loc,pos.x,pos.y);
 		gl::Uniform2f(self.size_loc    ,dim.x,dim.y);
 
 		gl::DrawArrays(gl::TRIANGLES,0,self.unit_square.size as GLint);
-	}
+	}}
 
-	unsafe fn init_projection(&self,x:GLint,y:GLint,width:GLuint,height:GLuint){
+	fn init_projection(&self,x:GLint,y:GLint,width:GLuint,height:GLuint){unsafe{
 		gl::Viewport(x,y,width as GLint,height as GLint);
 		gl::Uniform2f(self.framebuffer_size_loc,width as GLfloat,height as GLfloat);
-	}
+	}}
+
+	fn clear(&self){unsafe{
+		gl::Clear(gl::COLOR_BUFFER_BIT);
+	}}
 }
 impl Drop for Renderer{
 	fn drop(&mut self){unsafe{

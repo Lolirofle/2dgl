@@ -20,7 +20,7 @@ impl<G,R,RenderData> GameHandlerTrait<G,R,RenderData> for GameHandler<G,R,Render
 		let mut next_time     = previous_time;
 
 		//Render
-		let mut render_data = game.init_render();
+		let mut render_data = game.init_render(&renderer);
 
 		loop{
 			//Process events

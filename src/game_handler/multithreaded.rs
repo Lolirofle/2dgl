@@ -26,7 +26,7 @@ impl<G,R,RenderData> GameHandlerTrait<G,R,RenderData> for GameHandler<G,R,Render
 
 		let (render_send,render_receive) = channel::<RenderingMessage<G>>();
 		let render_thread = Thread::start(proc(){
-			let mut render_data = render_game.init_render();
+			let mut render_data = render_game.init_render(&renderer);
 
 			loop{
 				match render_receive.try_recv(){

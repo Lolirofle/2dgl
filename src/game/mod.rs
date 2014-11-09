@@ -1,6 +1,7 @@
 //! Abstractions for a game application
 
 use game::gameloop::{Update,Render,EventHandler};
+use graphics::renderer::Renderer;
 use std::time::Duration;
 
 pub mod gameloop;
@@ -16,5 +17,5 @@ pub trait Game<E,R>: Update<()> + Render<R> + EventHandler<E>{
 	fn target_time_per_frame(&self) -> Duration;
 
 	/// Initializes rendering
-	fn init_render(&self) -> R;
+	fn init_render(&self,renderer: &Renderer) -> R;
 }

@@ -1,3 +1,5 @@
+extern crate libc;
+
 use gl;
 use gl::types::*;
 use data::vector2::coord_vector::Vector;
@@ -6,7 +8,9 @@ use graphics::renderer::Renderer as RendererTrait;
 pub struct Renderer;
 
 impl Renderer{
-	pub unsafe fn new() -> Renderer{
+	pub fn new(proc_address: |&str| -> *const libc::c_void) -> Renderer{unsafe{
+		gl::load_with(proc_address);
+
 		gl::Enable(gl::TEXTURE_2D);
 		gl::Enable(gl::COLOR_MATERIAL);
 		gl::Disable(gl::DEPTH_TEST);
@@ -21,11 +25,11 @@ impl Renderer{
 		gl::BlendFunc(gl::SRC_ALPHA,gl::ONE_MINUS_SRC_ALPHA);
 
 		return Renderer;
-	}
+	}}
 }
 
 impl RendererTrait for Renderer{
-	unsafe fn render_rectangle(&self,pos: Vector<GLfloat>,dim: Vector<GLfloat>){
+	fn render_rectangle(&self,pos: Vector<GLfloat>,dim: Vector<GLfloat>){unsafe{
 		let x2 = pos.x + dim.x;
 		let y2 = pos.y + dim.y;
 		gl::Begin(gl::LINE_LOOP);
@@ -34,9 +38,9 @@ impl RendererTrait for Renderer{
 			gl::Vertex2f(x2,y2);
 			gl::Vertex2f(x2,pos.y);
 		gl::End();
-	}
+	}}
 
-	unsafe fn init_projection(&self,x:GLint,y:GLint,width:GLuint,height:GLuint){
+	fn init_projection(&self,x:GLint,y:GLint,width:GLuint,height:GLuint){unsafe{
 		gl::MatrixMode(gl::PROJECTION);
 		gl::LoadIdentity();
 
@@ -52,5 +56,9 @@ impl RendererTrait for Renderer{
 		gl::LoadIdentity();
 
 		gl::Viewport(x,y,width as GLint,height as GLint);
-	}
+	}}
+
+	fn clear(&self){unsafe{
+		gl::Clear(gl::COLOR_BUFFER_BIT);
+	}}
 }

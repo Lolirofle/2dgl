@@ -20,10 +20,8 @@ pub mod graphics;
 
 #[doc(hidden)]
 mod gl{
-
 	#[phase(plugin)]
 	extern crate gl_generator;
-
 
 	generate_gl_bindings! {
 		api: "gl",
