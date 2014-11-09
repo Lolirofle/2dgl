@@ -7,6 +7,7 @@
 
 #![feature(globs)]
 #![feature(phase)]
+#![feature(if_let)]
 
 extern crate core;
 extern crate collections;

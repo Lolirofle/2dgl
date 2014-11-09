@@ -12,15 +12,15 @@ enum RenderingMessage<T : Send>{
 	RenderData(T),
 }
 
-pub struct GameHandler<G,R,RenderData>
-	where G: Game<(),RenderData> + Send + Clone,
+pub struct GameHandler<G,R,RenderData,Exit>
+	where G: Game<(),RenderData,Exit> + Send + Clone,
 	      R: Renderer + Send;
 
-impl<G,R,RenderData> GameHandlerTrait<G,R,RenderData> for GameHandler<G,R,RenderData>
-	where G: Game<(),RenderData> + Send + Clone,
+impl<G,R,RenderData,Exit> GameHandlerTrait<G,R,RenderData,Exit> for GameHandler<G,R,RenderData,Exit>
+	where G: Game<(),RenderData,Exit> + Send + Clone,
 	      R: Renderer + Send,
 {
-	fn run(&self,renderer: R,game: &mut G){
+	fn run(&self,renderer: R,game: &mut G) -> Exit{
 		//Render
 		let mut render_game = game.clone();
 
@@ -46,12 +46,15 @@ impl<G,R,RenderData> GameHandlerTrait<G,R,RenderData> for GameHandler<G,R,Render
 		//Event and Update
 		let mut previous_time = time::get_time();
 		let mut next_time     = previous_time;
+
+		let mut exit_data: Exit;
 		loop{
 			//Process events
 			game.event(());
 
 			//Check if the window should close
-			if game.should_exit(){
+			if let Some(d) = game.should_exit(){
+				exit_data = d;
 				break;
 			}
 
@@ -71,5 +74,7 @@ impl<G,R,RenderData> GameHandlerTrait<G,R,RenderData> for GameHandler<G,R,Render
 
 		//Wait for tasks to stop (and therefore the lifetimes of all the borrowed refs are valid. But rustc doesn't think so?)
 		render_thread.join();
+		
+		return exit_data;
 	}
 }

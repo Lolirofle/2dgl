@@ -6,15 +6,15 @@ use game_handler::GameHandler as GameHandlerTrait;
 use graphics::renderer::Renderer;
 use std::io::timer;
 
-pub struct GameHandler<G,R,RenderData>
-	where G: Game<(),RenderData>,
+pub struct GameHandler<G,R,RenderData,Exit>
+	where G: Game<(),RenderData,Exit>,
 	      R: Renderer;
 
-impl<G,R,RenderData> GameHandlerTrait<G,R,RenderData> for GameHandler<G,R,RenderData>
-	where G: Game<(),RenderData>,
+impl<G,R,RenderData,Exit> GameHandlerTrait<G,R,RenderData,Exit> for GameHandler<G,R,RenderData,Exit>
+	where G: Game<(),RenderData,Exit>,
 	      R: Renderer
 {
-	fn run(&self,renderer: R,game: &mut G){
+	fn run(&self,renderer: R,game: &mut G) -> Exit{
 		//Init
 		let mut previous_time = time::get_time();
 		let mut next_time     = previous_time;
@@ -22,12 +22,14 @@ impl<G,R,RenderData> GameHandlerTrait<G,R,RenderData> for GameHandler<G,R,Render
 		//Render
 		let mut render_data = game.init_render(&renderer);
 
+		let mut exit_data: Exit;
 		loop{
 			//Process events
 			game.event(());
 
 			//Check if the window should close
-			if game.should_exit(){
+			if let Some(d) = game.should_exit(){
+				exit_data = d;
 				break;
 			}
 
@@ -43,5 +45,7 @@ impl<G,R,RenderData> GameHandlerTrait<G,R,RenderData> for GameHandler<G,R,Render
 			//Render
 			game.render(&renderer,&mut render_data);
 		}
+
+		return exit_data;
 	}
 }
