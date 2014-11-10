@@ -17,20 +17,5 @@ extern crate time;
 pub mod data;
 pub mod game_handler;
 pub mod game;
+mod gl;
 pub mod graphics;
-
-#[doc(hidden)]
-mod gl{
-	#[phase(plugin)]
-	extern crate gl_generator;
-
-	generate_gl_bindings! {
-		api: "gl",
-		profile: "core",
-		version: "3.0",
-		generator: "global",
-		extensions: [
-			"GL_EXT_texture_filter_anisotropic",
-		],
-	}
-}
