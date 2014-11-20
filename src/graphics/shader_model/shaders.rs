@@ -1,6 +1,6 @@
 use gl;
 use gl::types::*;
-use std::{ptr,str};
+use core::{ptr,str};
 
 /**
  * @param shader_type `gl::VERTEX_SHADER` or `gl::FRAGMENT_SHADER`

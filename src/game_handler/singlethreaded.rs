@@ -1,10 +1,9 @@
-use time;
-
-use game::gameloop::{Update,Render};
 use game::Game;
+use game::gameloop::{Update,Render};
 use game_handler::GameHandler as GameHandlerTrait;
 use graphics::renderer::Renderer;
 use std::io::timer;
+use time;
 
 pub struct GameHandler<G,R,RenderData,Exit>
 	where G: Game<(),RenderData,Exit>,

@@ -15,7 +15,7 @@ extern crate rustrt;
 extern crate time;
 
 pub mod data;
-pub mod game_handler;
 pub mod game;
+pub mod game_handler;
 mod gl;
 pub mod graphics;

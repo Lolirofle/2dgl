@@ -1,7 +1,6 @@
 //! Mathematical vector data structures
 
-use std::num::Zero;
-use std::ops::Neg;
+use core::num;
 
 pub mod coord_vector;
 
@@ -13,7 +12,7 @@ pub trait Vector<T>
 	+ Mul<T,Self>
 	+ Div<T,Self>
 	+ Neg<Self>
-	+ Zero
+	+ num::Zero
 {
 	/// Constructor for constructing from a generalized vector
 	fn from_vector2<V: Vector<T>>(v: &V) -> Self;

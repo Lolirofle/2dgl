@@ -6,8 +6,7 @@ use data::vector2::coord_vector::Vector;
 use graphics::shader_model::shaders;
 use graphics::shader_model::vertex_object::VertexObject;
 use graphics::renderer::Renderer as RendererTrait;
-use std::mem;
-use std::ptr;
+use core::{mem,ptr};
 
 //Import shader sources
 const VERTEX_SHADER_SRC:   &'static str = include_str!("vertex_shader.glsl");

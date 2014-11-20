@@ -6,3 +6,6 @@ authors = ["Lolirofle <lolipopple@hotmail.com>"]
 
 [dependencies.gl]
 git = "https://github.com/bjz/gl-rs"
+
+[dependencies.time]
+git = "https://github.com/rust-lang/time"

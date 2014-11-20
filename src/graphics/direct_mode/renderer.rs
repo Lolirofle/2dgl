@@ -1,8 +1,8 @@
 extern crate libc;
 
-use gl;
-use gl::types::*;
 use data::vector2::coord_vector::Vector;
+use gl::types::*;
+use gl;
 use graphics::renderer::Renderer as RendererTrait;
 
 pub struct Renderer;

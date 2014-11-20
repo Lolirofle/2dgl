@@ -1,9 +1,11 @@
-use std::{fmt,num};
+use core::num;
+use std::num::FloatMath;
+use std::fmt;
 
 use data::vector2::Vector as VectorTrait;
 
 /// Vector that uses the dimensional axes as internal storage
-#[deriving(Clone,Zero)]
+#[deriving(Clone)]
 pub struct Vector<T>{
 	/// The horizontal axis
 	pub x: T,
@@ -12,7 +14,7 @@ pub struct Vector<T>{
 	pub y: T
 }
 
-impl<T: FloatMath + Mul<T,T> + Div<T,T>> VectorTrait<T> for Vector<T>{//TODO: Mul and Div are only required for `dot_product`, `unit` and `project`. Separate if that will be implemented in rustc
+impl<T: num::Float + FloatMath + Mul<T,T> + Div<T,T> + num::Zero> VectorTrait<T> for Vector<T>{//TODO: Mul and Div are only required for `dot_product`, `unit` and `project`. Separate if that will be implemented in rustc
 	fn from_vector2<V: VectorTrait<T>>(v: &V) -> Vector<T>{
 		return Vector{x: v.x(),y: v.y()};
 	}
@@ -23,7 +25,7 @@ impl<T: FloatMath + Mul<T,T> + Div<T,T>> VectorTrait<T> for Vector<T>{//TODO: Mu
 	#[inline(always)]
 	fn y(&self) -> T{self.y}
 
-	fn magnitude(&self) -> T where T: FloatMath{
+	fn magnitude(&self) -> T where T: num::Float{
 		self.x.hypot(self.y)
 	}
 
@@ -44,7 +46,7 @@ impl<T: FloatMath + Mul<T,T> + Div<T,T>> VectorTrait<T> for Vector<T>{//TODO: Mu
 	}
 }
 
-impl<T: FloatMath> Vector<T>{
+impl<T: num::Float> Vector<T>{
 	pub fn limit_magnitude(&mut self,magnitude: T){
 		let current_magnitude = self.x*self.x + self.y*self.y;
 		if current_magnitude > magnitude*magnitude{
@@ -91,13 +93,23 @@ impl<T: Neg<T>> Neg<Vector<T>> for Vector<T>{
 	}
 }
 
+impl<T: num::Zero> num::Zero for Vector<T>{
+	fn zero() -> Vector<T>{
+		Vector{x: num::Zero::zero(),y: num::Zero::zero()}
+	}
+
+	fn is_zero(&self) -> bool{
+		self.x.is_zero() && self.y.is_zero()
+	}
+}
+
 impl<T: num::One> /*num::One for*/ Vector<T>{
 	pub fn one() -> Vector<T>{
 		Vector{x: num::One::one(),y: num::One::one()}
 	}
 }
 
-impl<T: Signed> Vector<T>{
+impl<T: num::SignedInt> Vector<T>{
 	pub fn abs(&self) -> Vector<T>{
 		return Vector{x: self.x.abs(),y: self.y.abs()};
 	}

@@ -1,5 +1,5 @@
-use gl::types::*;
 use data::vector2::coord_vector::Vector;
+use gl::types::*;
 
 /// A renderer that can render in two dimensional space
 pub trait Renderer{

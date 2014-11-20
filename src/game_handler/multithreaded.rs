@@ -1,15 +1,14 @@
-use time;
-
-use game::gameloop::{Update,Render};
 use game::Game;
+use game::gameloop::{Update,Render};
 use game_handler::GameHandler as GameHandlerTrait;
 use graphics::renderer::Renderer;
 use rustrt::thread::Thread;
 use std::io::timer;
+use time;
 
 enum RenderingMessage<T : Send>{
-	RenderStop,
-	RenderData(T),
+	Stop,
+	Data(T),
 }
 
 pub struct GameHandler<G,R,RenderData,Exit>
@@ -31,10 +30,10 @@ impl<G,R,RenderData,Exit> GameHandlerTrait<G,R,RenderData,Exit> for GameHandler<
 			loop{
 				match render_receive.try_recv(){
 					Ok(message) => match message{
-						RenderData(new_data) => {render_game = new_data;},
+						RenderingMessage::Data(new_data) => {render_game = new_data;},
 
 						//Check if the render loop should stop.
-						RenderStop => break,
+						RenderingMessage::Stop => break,
 					},
 					_ => {}
 				}
@@ -60,7 +59,7 @@ impl<G,R,RenderData,Exit> GameHandlerTrait<G,R,RenderData,Exit> for GameHandler<
 
 			//Update
 			game.update((),time::get_time() - previous_time);
-			render_send.send(RenderData(game.clone()));
+			render_send.send(RenderingMessage::Data(game.clone()));
 
 			//Timing
 			let current_time = time::get_time();
@@ -70,7 +69,7 @@ impl<G,R,RenderData,Exit> GameHandlerTrait<G,R,RenderData,Exit> for GameHandler<
 		}
 
 		//Tell the tasks to stop.
-		render_send.send(RenderStop);
+		render_send.send(RenderingMessage::Stop);
 
 		//Wait for tasks to stop (and therefore the lifetimes of all the borrowed refs are valid. But rustc doesn't think so?)
 		render_thread.join();
