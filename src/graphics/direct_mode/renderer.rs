@@ -1,6 +1,6 @@
 extern crate libc;
 
-use data::vector2::coord_vector::Vector;
+use data::two_dim::vector;
 use gl::types::*;
 use gl;
 use graphics::renderer::Renderer as RendererTrait;
@@ -29,7 +29,7 @@ impl Renderer{
 }
 
 impl RendererTrait for Renderer{
-	fn render_rectangle(&self,pos: Vector<GLfloat>,dim: Vector<GLfloat>){unsafe{
+	fn render_rectangle(&self,pos: vector::Coord<GLfloat>,dim: vector::Coord<GLfloat>){unsafe{
 		let x2 = pos.x + dim.x;
 		let y2 = pos.y + dim.y;
 		gl::Begin(gl::LINE_LOOP);

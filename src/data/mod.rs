@@ -1,3 +1,3 @@
 //! Data structures
 
-pub mod vector2;
+pub mod two_dim;

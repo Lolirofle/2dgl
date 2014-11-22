@@ -2,7 +2,7 @@ extern crate libc;
 
 use gl;
 use gl::types::*;
-use data::vector2::coord_vector::Vector;
+use data::two_dim::vector;
 use graphics::shader_model::shaders;
 use graphics::shader_model::vertex_object::VertexObject;
 use graphics::renderer::Renderer as RendererTrait;
@@ -113,7 +113,7 @@ impl Renderer{
 	}}
 }
 impl RendererTrait for Renderer{
-	fn render_rectangle(&self,pos: Vector<GLfloat>,dim: Vector<GLfloat>){unsafe{
+	fn render_rectangle(&self,pos: vector::Coord<GLfloat>,dim: vector::Coord<GLfloat>){unsafe{
 		gl::Uniform2f(self.position_loc,pos.x,pos.y);
 		gl::Uniform2f(self.size_loc    ,dim.x,dim.y);
 

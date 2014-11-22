@@ -11,6 +11,7 @@
 
 extern crate core;
 extern crate collections;
+extern crate num;
 extern crate rustrt;
 extern crate time;
 
