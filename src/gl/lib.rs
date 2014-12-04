@@ -1,4 +1,5 @@
 #![doc(hidden)]
+#![feature(phase)]
 
 #[phase(plugin)]
 extern crate gl_generator;
