@@ -89,6 +89,13 @@ impl<T: fmt::Show> fmt::Show for Coord<T>{
 	}
 }
 
+/*TODO: See data/two_dim/vector/mod.rs . How to express this in the Vector trait
+impl<T: Add<T,T>,V: Vector<T>> Add<V,Coord<T>> for Coord<T>{
+	fn add(&self, other: &V) -> Coord<T>{
+		 Coord{x: self.x() + other.x(),y: self.y() + other.y()}
+	}
+}*/
+
 impl<T: Add<T,T>> Add<Coord<T>,Coord<T>> for Coord<T>{
 	fn add(&self, other: &Coord<T>) -> Coord<T>{
 		 Coord{x: self.x + other.x,y: self.y + other.y}

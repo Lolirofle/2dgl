@@ -4,7 +4,6 @@
 #![crate_type = "lib"]
 
 #![feature(globs)]
-#![feature(if_let)]
 
 extern crate core;
 extern crate collections;

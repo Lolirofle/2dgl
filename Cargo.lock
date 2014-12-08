@@ -4,13 +4,13 @@ version = "0.0.2"
 dependencies = [
  "gl 0.0.1",
  "num 0.0.5 (git+https://github.com/rust-lang/num)",
- "time 0.1.0 (git+https://github.com/rust-lang/time)",
+ "time 0.1.1 (git+https://github.com/rust-lang/time)",
 ]
 
 [[package]]
 name = "gcc"
 version = "0.1.0"
-source = "git+https://github.com/alexcrichton/gcc-rs#d32b24466d3e0094cef1c1809a04d7a28536f0e0"
+source = "git+https://github.com/alexcrichton/gcc-rs#3caf7309ef72644cd56a9d3a6f515ae553683176"
 
 [[package]]
 name = "gl"
@@ -51,8 +51,8 @@ source = "git+https://github.com/netvl/rust-xml#2d9df3267aeaa4d442e1e19a4dfed733
 
 [[package]]
 name = "time"
-version = "0.1.0"
-source = "git+https://github.com/rust-lang/time#b8e219aa9fca15ed1377a7d62aff1eb4378f3ba4"
+version = "0.1.1"
+source = "git+https://github.com/rust-lang/time#c22414be22894905e4692896da4d2d246a361797"
 dependencies = [
  "gcc 0.1.0 (git+https://github.com/alexcrichton/gcc-rs)",
 ]
