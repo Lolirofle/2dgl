@@ -91,7 +91,7 @@ impl<T: Div<T,T> + num::One> Div<T,Polar<T>> for Polar<T>{
 }
 
 impl<T: Neg<T> + Float> Neg<Polar<T>> for Polar<T>{
-	fn neg(&self) -> Polar<T>{
+	fn neg(self) -> Polar<T>{
 		Polar{direction: self.direction + Float::pi(),magnitude: self.magnitude}
 	}
 }

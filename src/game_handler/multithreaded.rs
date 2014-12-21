@@ -2,7 +2,7 @@ use game::Game;
 use game::gameloop::{Update,Render};
 use game_handler::GameHandler as GameHandlerTrait;
 use graphics::renderer::Renderer;
-use rustrt::thread::Thread;
+use std::thread::Thread;
 use std::io::timer;
 use time;
 
@@ -24,7 +24,7 @@ impl<G,R,RenderData,Exit> GameHandlerTrait<G,R,RenderData,Exit> for GameHandler<
 		let mut render_game = game.clone();
 
 		let (render_send,render_receive) = channel::<RenderingMessage<G>>();
-		let render_thread = Thread::start(move ||{
+		let render_thread = Thread::spawn(move ||{
 			let mut render_data = render_game.init_render(&renderer);
 
 			loop{

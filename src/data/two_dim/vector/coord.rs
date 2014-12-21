@@ -124,7 +124,7 @@ impl<T> Div<T,Coord<T>> for Coord<T>
 }
 
 impl<T: Neg<T>> Neg<Coord<T>> for Coord<T>{
-	fn neg(&self) -> Coord<T>{
+	fn neg(self) -> Coord<T>{
 		 Coord{x: -self.x,y: -self.y}
 	}
 }

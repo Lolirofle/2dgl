@@ -9,7 +9,6 @@ extern crate core;
 extern crate collections;
 extern crate gl;
 extern crate num;
-extern crate rustrt;
 extern crate time;
 
 pub mod data;
