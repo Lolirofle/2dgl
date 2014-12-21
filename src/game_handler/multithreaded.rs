@@ -24,7 +24,7 @@ impl<G,R,RenderData,Exit> GameHandlerTrait<G,R,RenderData,Exit> for GameHandler<
 		let mut render_game = game.clone();
 
 		let (render_send,render_receive) = channel::<RenderingMessage<G>>();
-		let render_thread = Thread::start(proc(){
+		let render_thread = Thread::start(move ||{
 			let mut render_data = render_game.init_render(&renderer);
 
 			loop{

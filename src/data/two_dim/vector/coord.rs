@@ -6,7 +6,7 @@ use std::fmt;
 use data::two_dim::vector::Vector;
 
 /// Coord that uses the dimensional axes as internal storage
-#[deriving(Clone)]
+#[deriving(Copy,Clone,Eq,PartialEq)]
 pub struct Coord<T>{
 	/// The horizontal axis
 	pub x: T,
@@ -15,7 +15,7 @@ pub struct Coord<T>{
 	pub y: T
 }
 
-impl<T: Float + FloatMath + Mul<T,T> + Div<T,T> + num::Zero> Vector<T> for Coord<T>{//TODO: Mul and Div are only required for `dot_product`, `unit` and `project`. Separate if that will be implemented in rustc
+impl<T: FloatMath + num::Zero> Vector<T> for Coord<T>{//TODO: Mul and Div are only required for `dot_product`, `unit` and `project`. Separate if that will be implemented in rustc
 	fn from_vector<V: Vector<T>>(v: &V) -> Coord<T>{
 		 Coord{x: v.x(),y: v.y()}
 	}
@@ -42,11 +42,11 @@ impl<T: Float + FloatMath + Mul<T,T> + Div<T,T> + num::Zero> Vector<T> for Coord
 
 	#[inline(always)]
 	fn unit(&self) -> Coord<T>{
-		*self / self.magnitude()
+		(*self) / self.magnitude()
 	}
 
 	fn project<V: Vector<T>>(&self,other: &V) -> V{
-		(*other) * (self.dot_product(other) / other.dot_product(other))
+		(*other).clone() * (self.dot_product(other) / other.dot_product(other))
 	}
 
 	#[inline(always)]
@@ -89,34 +89,37 @@ impl<T: fmt::Show> fmt::Show for Coord<T>{
 	}
 }
 
-/*TODO: See data/two_dim/vector/mod.rs . How to express this in the Vector trait
-impl<T: Add<T,T>,V: Vector<T>> Add<V,Coord<T>> for Coord<T>{
-	fn add(&self, other: &V) -> Coord<T>{
-		 Coord{x: self.x() + other.x(),y: self.y() + other.y()}
-	}
-}*/
-
-impl<T: Add<T,T>> Add<Coord<T>,Coord<T>> for Coord<T>{
-	fn add(&self, other: &Coord<T>) -> Coord<T>{
-		 Coord{x: self.x + other.x,y: self.y + other.y}
+impl<T,V> Add<V,Coord<T>> for Coord<T>
+	where T: Add<T,T>,
+	      V: Vector<T>
+{
+	fn add(self, other: V) -> Coord<T>{
+		 Coord{x: self.x + other.x(),y: self.y + other.y()}
 	}
 }
 
-impl<T: Sub<T,T>> Sub<Coord<T>,Coord<T>> for Coord<T>{
-	fn sub(&self, other: &Coord<T>) -> Coord<T>{
-		 Coord{x: self.x - other.x,y: self.y - other.y}
+impl<T,V> Sub<V,Coord<T>> for Coord<T>
+	where T: Sub<T,T>,
+	      V: Vector<T>
+{
+	fn sub(self, other: V) -> Coord<T>{
+		 Coord{x: self.x - other.x(),y: self.y - other.y()}
 	}
 }
 
-impl<T: Mul<T,T>> Mul<T,Coord<T>> for Coord<T>{
-	fn mul(&self, other: &T) -> Coord<T>{
-		 Coord{x: self.x * *other,y: self.y * *other}
+impl<T> Mul<T,Coord<T>> for Coord<T>
+	where T: Mul<T,T> + Copy
+{
+	fn mul(self, other: T) -> Coord<T>{
+		 Coord{x: self.x * other,y: self.y * other}
 	}
 }
 
-impl<T: Div<T,T>> Div<T,Coord<T>> for Coord<T>{
-	fn div(&self, other: &T) -> Coord<T>{
-		 Coord{x: self.x / *other,y: self.y / *other}
+impl<T> Div<T,Coord<T>> for Coord<T>
+	where T: Div<T,T> + Copy
+{
+	fn div(self, other: T) -> Coord<T>{
+		 Coord{x: self.x / other,y: self.y / other}
 	}
 }
 
@@ -126,7 +129,7 @@ impl<T: Neg<T>> Neg<Coord<T>> for Coord<T>{
 	}
 }
 
-impl<T: num::Zero> num::Zero for Coord<T>{
+impl<T: num::Zero + FloatMath> num::Zero for Coord<T>{
 	fn zero() -> Coord<T>{
 		Coord{x: num::Zero::zero(),y: num::Zero::zero()}
 	}

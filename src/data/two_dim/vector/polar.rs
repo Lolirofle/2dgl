@@ -4,13 +4,13 @@ use std::num::FloatMath;
 
 use data::two_dim::vector::{Coord,Vector};
 
-#[deriving(Clone)]
+#[deriving(Copy,Clone)]
 pub struct Polar<T>{
 	direction: T,
 	magnitude: T
 }
 
-impl<T: Float + FloatMath + Mul<T,T> + Div<T,T> + num::One + num::Zero> Vector<T> for Polar<T>{//TODO: Mul and Div are only required for `dot_product`, `unit` and `project`. Separate if that will be implemented in rustc
+impl<T: FloatMath + num::One + num::Zero> Vector<T> for Polar<T>{//TODO: Mul and Div are only required for `dot_product`, `unit` and `project`. Separate if that will be implemented in rustc
 	fn from_vector<V: Vector<T>>(v: &V) -> Polar<T>{
 		Polar{direction: v.direction(),magnitude: v.magnitude()}
 	}
@@ -38,7 +38,7 @@ impl<T: Float + FloatMath + Mul<T,T> + Div<T,T> + num::One + num::Zero> Vector<T
 	}
 
 	fn project<V: Vector<T>>(&self,other: &V) -> V{
-		(*other) * (self.dot_product(other) / other.dot_product(other))
+		(*other).clone() * (self.dot_product(other) / other.dot_product(other))
 	}
 
 	fn set_x(&mut self,x: T){
@@ -60,27 +60,33 @@ impl<T: Float + FloatMath + Mul<T,T> + Div<T,T> + num::One + num::Zero> Vector<T
 	}
 }
 
-impl<T: Add<T,T> + Float + FloatMath + Mul<T,T> + Div<T,T> + num::One + num::Zero> Add<Polar<T>,Polar<T>> for Polar<T>{
-	fn add(&self, other: &Polar<T>) -> Polar<T>{
+impl<T,V> Add<V,Polar<T>> for Polar<T>
+	where T: Add<T,T> + FloatMath + num::One + num::Zero,
+	      V: Vector<T>
+{
+	fn add(self, other: V) -> Polar<T>{
 		Vector::from_vector(&Coord{x: self.x() + other.x(),y: self.y() + other.y()})
 	}
 }
 
-impl<T: Sub<T,T> + Float + FloatMath + Mul<T,T> + Div<T,T> + num::One + num::Zero> Sub<Polar<T>,Polar<T>> for Polar<T>{
-	fn sub(&self, other: &Polar<T>) -> Polar<T>{
+impl<T,V> Sub<V,Polar<T>> for Polar<T>
+	where T: Sub<T,T> + FloatMath + num::One + num::Zero,
+	      V: Vector<T>
+{
+	fn sub(self, other: V) -> Polar<T>{
 		Vector::from_vector(&Coord{x: self.x() - other.x(),y: self.y() - other.y()})
 	}
 }
 
 impl<T: Mul<T,T> + num::One> Mul<T,Polar<T>> for Polar<T>{
-	fn mul(&self, x: &T) -> Polar<T>{
-		Polar{direction: self.direction * num::One::one(),magnitude: self.magnitude * *x}
+	fn mul(self, x: T) -> Polar<T>{
+		Polar{direction: self.direction * num::One::one(),magnitude: self.magnitude * x}
 	}
 }
 
 impl<T: Div<T,T> + num::One> Div<T,Polar<T>> for Polar<T>{
-	fn div(&self, x: &T) -> Polar<T>{
-		Polar{direction: self.direction * num::One::one(),magnitude: self.magnitude / *x}
+	fn div(self, x: T) -> Polar<T>{
+		Polar{direction: self.direction * num::One::one(),magnitude: self.magnitude / x}
 	}
 }
 
@@ -90,7 +96,7 @@ impl<T: Neg<T> + Float> Neg<Polar<T>> for Polar<T>{
 	}
 }
 
-impl<T: num::Zero + Float + FloatMath + Mul<T,T> + Div<T,T> + num::One> num::Zero for Polar<T>{
+impl<T: num::Zero + FloatMath + num::One> num::Zero for Polar<T>{
 	fn zero() -> Polar<T>{
 		Polar{direction: num::Zero::zero(),magnitude: num::Zero::zero()}
 	}
@@ -105,3 +111,5 @@ impl<T: num::Signed> Polar<T>{
 		Polar{direction: self.direction.abs(),magnitude: self.magnitude.abs()}
 	}
 }
+
+//TODO: Implement Eq and PartialEq

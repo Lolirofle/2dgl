@@ -62,3 +62,5 @@ impl RendererTrait for Renderer{
 		gl::Clear(gl::COLOR_BUFFER_BIT);
 	}}
 }
+
+impl Copy for Renderer{}

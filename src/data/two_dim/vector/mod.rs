@@ -18,6 +18,7 @@ pub trait Vector<T>
 	+ Div<T,Self>
 	+ Neg<Self>
 	+ num::Zero
+	+ Clone
 {
 	/// Constructor for constructing from a generalized vector
 	fn from_vector<V: Vector<T>>(v: &V) -> Self;

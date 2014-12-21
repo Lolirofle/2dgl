@@ -5,3 +5,5 @@ pub struct VertexObject{
 	pub buffer: GLuint,
 	pub size: GLsizeiptr
 }
+
+impl Copy for VertexObject{}
